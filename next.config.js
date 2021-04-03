@@ -3,10 +3,11 @@ module.exports = {
   future: {
     webpack5: true,
   },
-  rewrites: () => [
+  redirects: () => [
     {
-      source: "/jump",
-      destination: "/api/jump",
+      source: "/",
+      destination: "/before-after",
+      permanent: false,
     },
   ],
 };

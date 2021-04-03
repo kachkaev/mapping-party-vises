@@ -12,7 +12,7 @@ const Description = styled.p`
   font-weight: bold;
 `;
 
-export const PageContentsForIndex: React.VoidFunctionComponent = () => {
+export const PageContentsForBeforeAfter: React.VoidFunctionComponent = () => {
   return (
     <>
       <H2>hello world</H2>

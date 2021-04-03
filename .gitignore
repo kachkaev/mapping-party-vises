@@ -24,3 +24,5 @@ yarn-error.log*
 
 # custom
 cli/README.md
+
+.vercel

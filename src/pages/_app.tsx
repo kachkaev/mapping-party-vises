@@ -1,7 +1,7 @@
 import { AppProps } from "next/app";
 import * as React from "react";
 
-import { PageLayout } from "../ui/PageLayout";
+import { GlobalStyle } from "../ui/GlobalStyle";
 
 const App: React.VoidFunctionComponent<AppProps> = ({
   Component,
@@ -15,9 +15,10 @@ const App: React.VoidFunctionComponent<AppProps> = ({
   }, []);
 
   return (
-    <PageLayout>
+    <>
+      <GlobalStyle />
       <Component {...pageProps} />
-    </PageLayout>
+    </>
   );
 };
 
