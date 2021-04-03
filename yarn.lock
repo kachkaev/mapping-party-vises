@@ -1450,6 +1450,18 @@
     "@turf/invariant" "^6.3.0"
     d3-voronoi "1.1.2"
 
+"@types/classnames@^2.2.9":
+  version "2.2.11"
+  resolved "https://registry.yarnpkg.com/@types/classnames/-/classnames-2.2.11.tgz#2521cc86f69d15c5b90664e4829d84566052c1cf"
+  integrity sha512-2koNhpWm3DgWRp5tpkiJ8JGc1xTn2q0l+jUNUE7oMKXUf5NpI9AIdC4kbjGNFBdHtcxBD18LAksoudAVhFKCjw==
+
+"@types/d3-geo@^1.11.1":
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/@types/d3-geo/-/d3-geo-1.12.1.tgz#bec8692ffee9f60e18483af9008f92d4a8428118"
+  integrity sha512-8+gyGFyMCXIHtnMNKQDT++tZ4XYFXgiP5NK7mcv34aYXA16GQFiBBITjKzxghpO8QNVceOd9rUn1JY92WLNGQw==
+  dependencies:
+    "@types/geojson" "*"
+
 "@types/fs-extra@^9.0.10":
   version "9.0.10"
   resolved "https://registry.yarnpkg.com/@types/fs-extra/-/fs-extra-9.0.10.tgz#8023a72e3d06cf54929ea47ec7634e47f33f4046"
@@ -1457,7 +1469,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/geojson@^1.0.2":
+"@types/geojson@*", "@types/geojson@^1.0.2":
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/@types/geojson/-/geojson-1.0.6.tgz#3e02972728c69248c2af08d60a48cbb8680fffdf"
   integrity sha512-Xqg/lIZMrUd0VRmSRbCAewtwGZiAk3mEUDvV4op1tGl+LvyPcb/MIOSxTl9z+9+J+R4/vpjiCAT4xeKzH9ji1w==
@@ -1487,6 +1499,11 @@
   version "0.0.29"
   resolved "https://registry.yarnpkg.com/@types/json5/-/json5-0.0.29.tgz#ee28707ae94e11d2b827bcbe5270bcea7f3e71ee"
   integrity sha1-7ihweulOEdK4J7y+UnC86n8+ce4=
+
+"@types/lodash@^4.14.168":
+  version "4.14.168"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.168.tgz#fe24632e79b7ade3f132891afff86caa5e5ce008"
+  integrity sha512-oVfRvqHV/V6D1yifJbVRU3TMp8OT6o6BG+U9MkwuJ3U8/CsDHvalRpsxBqivn71ztOFZBTfJMvETbqHiaNSj7Q==
 
 "@types/minimatch@*":
   version "3.0.4"
@@ -1642,6 +1659,30 @@
   dependencies:
     "@typescript-eslint/types" "4.20.0"
     eslint-visitor-keys "^2.0.0"
+
+"@visx/geo@^1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@visx/geo/-/geo-1.7.0.tgz#2b66dac6c2f47aee81b20626dd4c8a2dc2a8a2b7"
+  integrity sha512-VSXtJ7L5DmMw8hNUDQIsK5vxrnChWhrVk8RYvhuZiyNWfKijH7jnup2BGvzbJjFNoqnRG0hArYsjs7sN7EnOAA==
+  dependencies:
+    "@types/classnames" "^2.2.9"
+    "@types/d3-geo" "^1.11.1"
+    "@types/geojson" "*"
+    "@types/react" "*"
+    "@visx/group" "1.7.0"
+    classnames "^2.2.5"
+    d3-geo "^1.11.3"
+    prop-types "^15.5.10"
+
+"@visx/group@1.7.0":
+  version "1.7.0"
+  resolved "https://registry.yarnpkg.com/@visx/group/-/group-1.7.0.tgz#e0ef2efbe00ef05326215d65b3d8a2b114df4f35"
+  integrity sha512-rzSXtV0+MHUyK+rwhVSV4qaHdzGi3Me3PRFXJSIAKVfoJIZczOkudUOLy34WvSrRlVyoFvGL7k9U5g8wHyY3nw==
+  dependencies:
+    "@types/classnames" "^2.2.9"
+    "@types/react" "*"
+    classnames "^2.2.5"
+    prop-types "^15.6.2"
 
 "@yarnpkg/lockfile@^1.1.0":
   version "1.1.0"
@@ -2188,7 +2229,7 @@ class-utils@^0.3.5:
     isobject "^3.0.0"
     static-extend "^0.1.1"
 
-classnames@2.2.6:
+classnames@2.2.6, classnames@^2.2.5:
   version "2.2.6"
   resolved "https://registry.yarnpkg.com/classnames/-/classnames-2.2.6.tgz#43935bffdd291f326dad0a205309b38d00f650ce"
   integrity sha512-JR/iSQOSt+LQIWwrwEzJ9uk0xfN3mTVYMwt1Ir5mUcSN6pU+V4zQFFaJsclJbPuAUQH+yfWef6tm7l1quW3C8Q==
@@ -2470,6 +2511,13 @@ d3-geo@1.7.1:
   version "1.7.1"
   resolved "https://registry.yarnpkg.com/d3-geo/-/d3-geo-1.7.1.tgz#44bbc7a218b1fd859f3d8fd7c443ca836569ce99"
   integrity sha512-O4AempWAr+P5qbk2bC2FuN/sDW4z+dN2wDf9QV3bxQt4M5HfOEeXLgJ/UKQW0+o1Dj8BE+L5kiDbdWUMjsmQpw==
+  dependencies:
+    d3-array "1"
+
+d3-geo@^1.11.3:
+  version "1.12.1"
+  resolved "https://registry.yarnpkg.com/d3-geo/-/d3-geo-1.12.1.tgz#7fc2ab7414b72e59fbcbd603e80d9adc029b035f"
+  integrity sha512-XG4d1c/UJSEX9NfU02KwBL6BYPj8YKHxgBEw5om2ZnTRSbIcego6dhHwcxuSR3clxh0EpE38os1DVPOmnYtTPg==
   dependencies:
     d3-array "1"
 
@@ -5017,7 +5065,7 @@ progress@^2.0.0:
   resolved "https://registry.yarnpkg.com/progress/-/progress-2.0.3.tgz#7e8cf8d8f5b8f239c1bc68beb4eb78567d572ef8"
   integrity sha512-7PiHtLll5LdnKIMw100I+8xJXR5gW2QwWYkT6iJva0bXitZKa/XMrSbdmg3r2Xnaidz9Qumd0VPaMrZlF9V9sA==
 
-prop-types@15.7.2, prop-types@^15.7.2:
+prop-types@15.7.2, prop-types@^15.5.10, prop-types@^15.6.2, prop-types@^15.7.2:
   version "15.7.2"
   resolved "https://registry.yarnpkg.com/prop-types/-/prop-types-15.7.2.tgz#52c41e75b8c87e72b9d9360e0206b99dcbffa6c5"
   integrity sha512-8QQikdH7//R2vurIJSutZ1smHYTcLpRWEOlHnzcWHmBYrOGUysKwSsrC89BCiFj3CbrfJ/nXFdJepOVrY1GCHQ==

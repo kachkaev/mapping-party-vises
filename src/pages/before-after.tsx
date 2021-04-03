@@ -1,35 +1,30 @@
 import { GetStaticProps, NextPage } from "next";
+import dynamic from "next/dynamic";
 import * as React from "react";
 
 import { getFeatureCollectionWithBuildings } from "../shared/getFeatureCollectionWithBuildings";
 import { getFeatureCollectionWithMappingCake } from "../shared/getFeatureCollectionWithMappingCake";
 import { getFeatureWithTerritoryExtent } from "../shared/getFeatureWithTerritoryExtent";
 import {
-  FeatureCollectionWithBuildings,
-  FeatureCollectionWithMappingCake,
-  TerritoryExtent,
-} from "../shared/types";
-import { PageContentsForBeforeAfter } from "../ui/PageContentsForBeforeAfter";
+  // PageContentsForBeforeAfter,
+  PageContentsForBeforeAfterProps,
+} from "../ui/PageContentsForBeforeAfter";
 import { PageMetadata } from "../ui/PageMetadata";
 
-interface BeforeAfterPageProps {
-  buildingCollectionBefore: FeatureCollectionWithBuildings;
-  buildingCollectionAfter: FeatureCollectionWithBuildings;
-  mappingCake: FeatureCollectionWithMappingCake;
-  territoryExtent: TerritoryExtent;
-}
+const PageContentsForBeforeAfter = dynamic<PageContentsForBeforeAfterProps>(
+  import("../ui/PageContentsForBeforeAfter").then(
+    (m) => m.PageContentsForBeforeAfter,
+  ),
+  { ssr: false },
+);
 
-const BeforeAfterPage: NextPage<BeforeAfterPageProps> = ({
-  buildingCollectionBefore,
-  buildingCollectionAfter,
-}) => {
+type BeforeAfterPageProps = PageContentsForBeforeAfterProps;
+
+const BeforeAfterPage: NextPage<BeforeAfterPageProps> = (props) => {
   return (
     <>
       <PageMetadata />
-      <PageContentsForBeforeAfter />
-      {buildingCollectionBefore.features.length}
-      <br />
-      {buildingCollectionAfter.features.length}
+      <PageContentsForBeforeAfter {...props} />
     </>
   );
 };

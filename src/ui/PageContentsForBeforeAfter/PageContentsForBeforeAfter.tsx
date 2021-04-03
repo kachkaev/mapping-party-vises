@@ -1,25 +1,52 @@
 import * as React from "react";
 import styled from "styled-components";
 
+import {
+  FeatureCollectionWithBuildings,
+  FeatureCollectionWithMappingCake,
+  TerritoryExtent,
+} from "../../shared/types";
 import { ExternalLink } from "../shared/ExternalLink";
+import { GeoMap } from "./GeoMap";
 
-const H2 = styled.h2`
-  margin-top: 3em;
-  font-size: 1em;
+const GeoMaps = styled.div`
+  white-space: nowrap;
 `;
 
-const Description = styled.p`
-  font-weight: bold;
+const StyledGeoMap = styled(GeoMap)`
+  display: inline-block;
 `;
 
-export const PageContentsForBeforeAfter: React.VoidFunctionComponent = () => {
+export interface PageContentsForBeforeAfterProps {
+  buildingCollectionBefore: FeatureCollectionWithBuildings;
+  buildingCollectionAfter: FeatureCollectionWithBuildings;
+  mappingCake: FeatureCollectionWithMappingCake;
+  territoryExtent: TerritoryExtent;
+}
+
+export const PageContentsForBeforeAfter: React.VoidFunctionComponent<PageContentsForBeforeAfterProps> = ({
+  territoryExtent,
+  mappingCake,
+  buildingCollectionBefore,
+  buildingCollectionAfter,
+}) => {
   return (
     <>
-      <H2>hello world</H2>
-      <Description>testing</Description>
-      <div>
-        <ExternalLink href="https://github.com/kachkaev/mapping-party-vizes" />
-      </div>
+      <GeoMaps>
+        <StyledGeoMap
+          buildingCollection={buildingCollectionBefore}
+          territoryExtent={territoryExtent}
+          mappingCake={mappingCake}
+        />
+        <StyledGeoMap
+          buildingCollection={buildingCollectionAfter}
+          territoryExtent={territoryExtent}
+          mappingCake={mappingCake}
+        />
+        <div>
+          <ExternalLink href="https://github.com/kachkaev/mapping-party-vizes" />
+        </div>
+      </GeoMaps>
     </>
   );
 };
