@@ -57,14 +57,17 @@ export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
   ];
 
   const buildingFeatureProps = React.useCallback(
-    (feature) => ({
-      fill: mapAddressStatusToColor(getAddressStatus(feature)),
-      strokeOpacity: 0.5,
-      // stroke: "#232323",
-      // strokeWidth: 0.1 * scaleFactor,
-    }),
-    [],
-    // [scaleFactor],
+    (feature) => {
+      const fill = mapAddressStatusToColor(getAddressStatus(feature));
+
+      return {
+        fill,
+        strokeOpacity: 0.5,
+        stroke: fill,
+        strokeWidth: 0.5 * scaleFactor,
+      };
+    },
+    [scaleFactor],
   );
 
   // TODO: figure out why visx / turf are incompatible orientation-wise

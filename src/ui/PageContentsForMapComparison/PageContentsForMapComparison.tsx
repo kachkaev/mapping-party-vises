@@ -11,7 +11,7 @@ import { DiffLegend } from "./DiffLegend";
 import { GeoMap } from "./GeoMap";
 
 const Figure = styled.div`
-  padding: 10px 20px;
+  padding: 10px 20px 15px;
   box-shadow: 2px 2px 10px #ddd;
   display: inline-block;
 `;
@@ -37,7 +37,16 @@ const Subtitle = styled.div``;
 const GeoMaps = styled.div`
   white-space: nowrap;
   padding-top: 20px;
-  padding-bottom: 40px;
+  padding-bottom: 50px;
+`;
+
+const GeoMapTitle = styled.div`
+  /* font-weight: 500; */
+  text-align: center;
+  padding-left: 5%;
+  padding-top: 2em;
+  /* padding-bottom: 1em; */
+  margin-bottom: -0.5em;
 `;
 
 const GeoMapWrapper = styled.div`
@@ -50,17 +59,11 @@ const GeoMapWrapper = styled.div`
   }
 `;
 
-const GeoMapTitle = styled.div`
-  font-weight: 500;
-  text-align: center;
-  padding-left: 10%;
-  padding-top: 1em;
-  margin-bottom: -0.5em;
-`;
-
 const StyledGeoMap = styled(GeoMap)`
-  width: 100%;
-  aspect-ratio: 1.2;
+  width: 475px;
+  height: ${475 / 1.2}px;
+  /* aspect-ratio: 1.2; */
+  /* ↑ not supported by ff */
 `;
 
 const DiffLegendContainer = styled.div`
@@ -127,12 +130,16 @@ export const PageContentsForMapComparison: React.VoidFunctionComponent<PageConte
         </DiffLegendContainer>
         <Copyright>
           данные карты
-          <br />© участники <StyledExternalLink href="https://osm.org" /> (ODbL)
+          <br />© участники <StyledExternalLink href="https://osm.org" />{" "}
+          (лицензия{" "}
+          <StyledExternalLink href="https://www.openstreetmap.org/copyright">
+            ODbL
+          </StyledExternalLink>
+          )
           <br />
           визуализация
           <br />
-          Александр Качкаев —
-          <StyledExternalLink href="https://kachkaev.ru" />
+          Александр Качкаев — <StyledExternalLink href="https://kachkaev.ru" />
         </Copyright>
       </FigureContent>
     </Figure>
