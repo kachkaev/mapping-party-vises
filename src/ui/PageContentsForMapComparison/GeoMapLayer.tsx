@@ -17,7 +17,7 @@ export interface GeoMapLayerProps<
   featureProps: (feature: Feature) => React.SVGProps<SVGPathElement>;
 }
 
-export const GeoMapLayer: React.VoidFunctionComponent<GeoMapLayerProps> = ({
+const GeoMapLayer: React.VoidFunctionComponent<GeoMapLayerProps> = ({
   width,
   height,
   fitExtent,
@@ -26,7 +26,7 @@ export const GeoMapLayer: React.VoidFunctionComponent<GeoMapLayerProps> = ({
   ...rest
 }) => {
   // https://stackoverflow.com/a/63357336/1818285
-  const chunkedFeatures = _.chunk(features, 1000);
+  const chunkedFeatures = _.chunk(features, 1000); // .slice(0, 5);
 
   return (
     <g {...rest}>
@@ -44,3 +44,6 @@ export const GeoMapLayer: React.VoidFunctionComponent<GeoMapLayerProps> = ({
     </g>
   );
 };
+
+const WrappedGeoMapLayer = React.memo(GeoMapLayer);
+export { WrappedGeoMapLayer as GeoMapLayer };

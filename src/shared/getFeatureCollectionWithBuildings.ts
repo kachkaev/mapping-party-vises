@@ -3,12 +3,12 @@ import execa from "execa";
 import { FeatureCollectionWithBuildings } from "./types";
 
 export const getFeatureCollectionWithBuildings = async (
-  type: "before" | "after",
+  type: "start" | "finish",
 ): Promise<FeatureCollectionWithBuildings> => {
   const commit =
-    type === "before"
-      ? process.env.BUILDINGS_COMMIT_BEFORE
-      : process.env.BUILDINGS_COMMIT_AFTER;
+    type === "start"
+      ? process.env.BUILDINGS_COMMIT_START
+      : process.env.BUILDINGS_COMMIT_FINISH;
 
   const { stdout } = await execa(
     "git",

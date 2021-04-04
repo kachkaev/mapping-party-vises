@@ -4,8 +4,8 @@ import normalize from "styled-normalize";
 const base = css`
   body {
     color: #24292e;
-    font-family: "-apple-system", BlinkMacSystemFont, Avenir Next, Avenir,
-      Helvetica, sans-serif;
+    font-size: 12px;
+    font-family: "Helvetica Neue", Helvetica, sans-serif;
     margin: 0;
     line-height: 1.4em;
 
@@ -25,17 +25,6 @@ const base = css`
 
     :hover {
       text-decoration: underline;
-    }
-  }
-
-  code {
-    padding: 0.1em 0.2em;
-    border-radius: 3px;
-    color: inherit;
-
-    background: rgba(27, 31, 35, 0.05);
-    .dark-mode & {
-      background: rgba(127, 127, 127, 0.3);
     }
   }
 `;
