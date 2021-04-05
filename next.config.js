@@ -6,7 +6,7 @@ module.exports = {
   redirects: () => [
     {
       source: "/",
-      destination: "/before-after",
+      destination: "/map-comparison",
       permanent: false,
     },
   ],

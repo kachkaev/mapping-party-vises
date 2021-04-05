@@ -3,21 +3,30 @@ import execa from "execa";
 import { FeatureCollectionWithBuildings } from "./types";
 
 export const getFeatureCollectionWithBuildings = async (
-  type: "start" | "finish",
+  date: string,
 ): Promise<FeatureCollectionWithBuildings> => {
-  const commit =
-    type === "start"
-      ? process.env.BUILDINGS_COMMIT_START
-      : process.env.BUILDINGS_COMMIT_FINISH;
+  const relativeFilePath =
+    process.env.BUILDINGS_RELATIVE_FILE_PATH ?? "/unknownFilePath";
 
-  const { stdout } = await execa(
+  const { stdout: rawCommitLog } = await execa(
     "git",
     [
-      "show",
-      `${commit}:${process.env.BUILDINGS_RELATIVE_FILE_PATH}` ?? `unknown`,
+      "log",
+      `--until="${date} 23:59 +0300"`,
+      "--format=%H",
+      "--",
+      relativeFilePath,
     ],
     { cwd: process.env.BUILDINGS_GIT_REPO_PATH ?? "/unknown" },
   );
 
-  return JSON.parse(stdout);
+  const commit = rawCommitLog.split("\n")[0];
+
+  const { stdout: fileContents } = await execa(
+    "git",
+    ["show", `${commit}:${relativeFilePath}` ?? `unknown`],
+    { cwd: process.env.BUILDINGS_GIT_REPO_PATH ?? "/unknown" },
+  );
+
+  return JSON.parse(fileContents);
 };

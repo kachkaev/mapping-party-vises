@@ -3,7 +3,7 @@ import { Mercator } from "@visx/geo";
 import _ from "lodash";
 import * as React from "react";
 
-import { FitExtent } from "../types";
+import { FitExtent } from "../../types";
 
 export interface GeoMapLayerProps<
   Feature extends turf.Feature<turf.Polygon | turf.MultiPolygon> = turf.Feature<
@@ -26,7 +26,7 @@ const GeoMapLayer: React.VoidFunctionComponent<GeoMapLayerProps> = ({
   ...rest
 }) => {
   // https://stackoverflow.com/a/63357336/1818285
-  const chunkedFeatures = _.chunk(features, 1000); // .slice(0, 5);
+  const chunkedFeatures = _.chunk(features, 1000).slice(0, 5);
 
   return (
     <g {...rest}>

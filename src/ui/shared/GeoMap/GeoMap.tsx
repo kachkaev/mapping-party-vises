@@ -6,13 +6,13 @@ import styled from "styled-components";
 import {
   getAddressStatus,
   mapAddressStatusToColor,
-} from "../../shared/helpersForAddresses";
+} from "../../../shared/helpersForAddresses";
 import {
   FeatureCollectionWithBuildings,
   FeatureCollectionWithMappingCake,
   TerritoryExtent,
-} from "../../shared/types";
-import { FitExtent } from "../types";
+} from "../../../shared/types";
+import { FitExtent } from "../../types";
 import { GeoMapLayer } from "./GeoMapLayer";
 
 const Wrapper = styled.div`
@@ -27,7 +27,7 @@ const StyledSvg = styled.svg`
 
 export interface GeoMapProps extends React.HTMLAttributes<HTMLDivElement> {
   buildingCollection: FeatureCollectionWithBuildings;
-  mappingCake: FeatureCollectionWithMappingCake;
+  mappingCake?: FeatureCollectionWithMappingCake;
   territoryExtent: TerritoryExtent;
   scaleFactor?: number;
   padding?: number;
@@ -89,18 +89,20 @@ export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
             opacity={0.3}
             features={[territoryExtent]}
           />
-          {/* <GeoMapLayer
-            width={width}
-            height={height}
-            fitExtent={fitExtent}
-            featureProps={() => ({
-              fill: "none",
-              stroke: "#4d75c4",
-              strokeWidth: 1 * scaleFactor,
-            })}
-            opacity={0.33}
-            features={mappingCake.features}
-          /> */}
+          {mappingCake ? (
+            <GeoMapLayer
+              width={width}
+              height={height}
+              fitExtent={fitExtent}
+              featureProps={() => ({
+                fill: "none",
+                stroke: "#4d75c4",
+                strokeWidth: 1 * scaleFactor,
+              })}
+              opacity={0.33}
+              features={mappingCake.features}
+            />
+          ) : null}
           <GeoMapLayer
             width={width}
             height={height}

@@ -3,7 +3,6 @@ import dynamic from "next/dynamic";
 import * as React from "react";
 
 import { getFeatureCollectionWithBuildings } from "../shared/getFeatureCollectionWithBuildings";
-import { getFeatureCollectionWithMappingCake } from "../shared/getFeatureCollectionWithMappingCake";
 import { getFeatureWithTerritoryExtent } from "../shared/getFeatureWithTerritoryExtent";
 import { PageContentsForMapComparisonProps } from "../ui/PageContentsForMapComparison";
 import { PageMetadata } from "../ui/PageMetadata";
@@ -29,11 +28,12 @@ const MapComparisonPage: NextPage<MapComparisonPageProps> = (props) => {
 export const getStaticProps: GetStaticProps<MapComparisonPageProps> = async () => {
   return {
     props: {
-      buildingCollectionStart: await getFeatureCollectionWithBuildings("start"),
-      buildingCollectionFinish: await getFeatureCollectionWithBuildings(
-        "finish",
+      buildingCollectionStart: await getFeatureCollectionWithBuildings(
+        "2021-02-19",
       ),
-      mappingCake: await getFeatureCollectionWithMappingCake(),
+      buildingCollectionFinish: await getFeatureCollectionWithBuildings(
+        "2021-03-31",
+      ),
       territoryExtent: await getFeatureWithTerritoryExtent(),
     },
   };

@@ -3,36 +3,11 @@ import styled from "styled-components";
 
 import {
   FeatureCollectionWithBuildings,
-  FeatureCollectionWithMappingCake,
   TerritoryExtent,
 } from "../../shared/types";
-import { ExternalLink } from "../shared/ExternalLink";
+import { Figure } from "../shared/Figure";
+import { GeoMap } from "../shared/GeoMap";
 import { DiffLegend } from "./DiffLegend";
-import { GeoMap } from "./GeoMap";
-
-const Figure = styled.div`
-  padding: 10px 20px 15px;
-  box-shadow: 2px 2px 10px #ddd;
-  display: inline-block;
-`;
-
-const FigureContent = styled.div`
-  position: relative;
-`;
-
-const StyledExternalLink = styled(ExternalLink)`
-  color: inherit;
-`;
-
-const Title = styled.h1`
-  font-weight: normal;
-  font-size: 2em;
-  text-align: left;
-  line-height: 1.2em;
-  margin: 0;
-`;
-
-const Subtitle = styled.div``;
 
 const GeoMaps = styled.div`
   white-space: nowrap;
@@ -40,22 +15,15 @@ const GeoMaps = styled.div`
   padding-bottom: 50px;
 `;
 
-const GeoMapTitle = styled.div`
-  /* font-weight: 500; */
-  text-align: center;
-  padding-left: 5%;
-  padding-top: 2em;
-  /* padding-bottom: 1em; */
-  margin-bottom: -0.5em;
-`;
-
 const GeoMapWrapper = styled.div`
   width: 475px;
+  position: relative;
   display: inline-block;
   white-space: nowrap;
+  padding-top: 40px;
 
   & + & {
-    padding-left: 50px;
+    margin-left: 50px;
   }
 `;
 
@@ -64,6 +32,17 @@ const StyledGeoMap = styled(GeoMap)`
   height: ${475 / 1.2}px;
   /* aspect-ratio: 1.2; */
   /* ↑ not supported by ff */
+`;
+
+const GeoMapTitle = styled.div`
+  font-size: 2em;
+  left: 42.5%;
+  line-height: 1em;
+  opacity: 40%;
+  top: 0;
+  position: absolute;
+  text-align: left;
+  margin-bottom: -0.5em;
 `;
 
 const DiffLegendContainer = styled.div`
@@ -77,71 +56,50 @@ const StyledDiffLegend = styled(DiffLegend)`
   left: -50%;
 `;
 
-const Copyright = styled.div`
-  opacity: 0.5;
-  position: absolute;
-  bottom: 0;
-`;
-
 export interface PageContentsForMapComparisonProps {
   buildingCollectionStart: FeatureCollectionWithBuildings;
   buildingCollectionFinish: FeatureCollectionWithBuildings;
-  mappingCake: FeatureCollectionWithMappingCake;
   territoryExtent: TerritoryExtent;
 }
 
 export const PageContentsForMapComparison: React.VoidFunctionComponent<PageContentsForMapComparisonProps> = ({
   territoryExtent,
-  mappingCake,
+
   buildingCollectionStart,
   buildingCollectionFinish,
 }) => {
   return (
-    <Figure>
-      <FigureContent>
-        <Title>Домашняя картовечеринка в Пензе, Заречном и Спутнике</Title>
-        <Subtitle>
-          <StyledExternalLink href="https://wiki.osm.org/wiki/RU:Пенза/встречи" />{" "}
-          {/* &nbsp; <StyledExternalLink href="https://t.me/osm_pnz" /> */}
-        </Subtitle>
-        <GeoMaps>
-          <GeoMapWrapper>
-            <GeoMapTitle>старт: 2021-02-20</GeoMapTitle>
-            <StyledGeoMap
-              buildingCollection={buildingCollectionStart}
-              territoryExtent={territoryExtent}
-              mappingCake={mappingCake}
-            />
-          </GeoMapWrapper>
-          <GeoMapWrapper>
-            <GeoMapTitle>финиш: 2021-03-31</GeoMapTitle>
-            <StyledGeoMap
-              buildingCollection={buildingCollectionFinish}
-              territoryExtent={territoryExtent}
-              mappingCake={mappingCake}
-            />
-          </GeoMapWrapper>
-        </GeoMaps>
-        <DiffLegendContainer>
-          <StyledDiffLegend
-            buildingCollectionStart={buildingCollectionStart}
-            buildingCollectionFinish={buildingCollectionFinish}
+    <Figure width={1000} height={550}>
+      <GeoMaps>
+        <GeoMapWrapper>
+          <GeoMapTitle>
+            старт
+            <br />
+            2021-02-20
+          </GeoMapTitle>
+          <StyledGeoMap
+            buildingCollection={buildingCollectionStart}
+            territoryExtent={territoryExtent}
           />
-        </DiffLegendContainer>
-        <Copyright>
-          данные карты
-          <br />© участники <StyledExternalLink href="https://osm.org" />{" "}
-          (лицензия{" "}
-          <StyledExternalLink href="https://www.openstreetmap.org/copyright">
-            ODbL
-          </StyledExternalLink>
-          )
-          <br />
-          визуализация
-          <br />
-          Александр Качкаев — <StyledExternalLink href="https://kachkaev.ru" />
-        </Copyright>
-      </FigureContent>
+        </GeoMapWrapper>
+        <GeoMapWrapper>
+          <GeoMapTitle>
+            финиш
+            <br />
+            2021-03-31
+          </GeoMapTitle>
+          <StyledGeoMap
+            buildingCollection={buildingCollectionFinish}
+            territoryExtent={territoryExtent}
+          />
+        </GeoMapWrapper>
+      </GeoMaps>
+      <DiffLegendContainer>
+        <StyledDiffLegend
+          buildingCollectionStart={buildingCollectionStart}
+          buildingCollectionFinish={buildingCollectionFinish}
+        />
+      </DiffLegendContainer>
     </Figure>
   );
 };
