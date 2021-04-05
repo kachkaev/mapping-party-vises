@@ -13,6 +13,8 @@ const Wrapper = styled.div`
 
 const Content = styled.div`
   position: relative;
+  display: block;
+  width: 100%;
 `;
 
 const StyledExternalLink = styled(ExternalLink)`
@@ -27,12 +29,8 @@ const Title = styled.h1`
   margin: 0;
 `;
 
-const Subtitle = styled.div``;
-
-const Copyright = styled.div`
-  opacity: 0.5;
-  position: absolute;
-  bottom: 0;
+const Subtitle = styled.div`
+  padding-top: 0.2em;
 `;
 
 export interface FigureProps {
@@ -51,23 +49,31 @@ export const Figure: React.VoidFunctionComponent<FigureProps> = ({
       <Content>
         <Title>Домашняя картовечеринка в Пензе, Заречном и Спутнике</Title>
         <Subtitle>
-          <StyledExternalLink href="https://wiki.osm.org/wiki/RU:Пенза/встречи" />{" "}
-          {/* &nbsp; <StyledExternalLink href="https://t.me/osm_pnz" /> */}
+          <span style={{ opacity: 0.5 }}>
+            <StyledExternalLink href="https://wiki.osm.org/wiki/RU:Пенза/встречи" />
+            {"   "}
+            данные: © участники <StyledExternalLink href="https://osm.org" />,{" "}
+            <StyledExternalLink href="https://www.openstreetmap.org/copyright">
+              ODbL
+            </StyledExternalLink>
+            {"   "} визуализация: Александр Качкаев,{" "}
+            <StyledExternalLink href="https://kachkaev.ru" />
+          </span>
         </Subtitle>
         {children}
-        <Copyright>
-          данные карты
-          <br />© участники <StyledExternalLink href="https://osm.org" />{" "}
-          (лицензия{" "}
+
+        {/* <Copyright style={copyrightPosition === "right" ? { right: 0 } : {}}>
+          данные:
+          {brOrSpace}© участники <StyledExternalLink href="https://osm.org" />,
+          лицензия{" "}
           <StyledExternalLink href="https://www.openstreetmap.org/copyright">
             ODbL
           </StyledExternalLink>
-          )
           <br />
-          визуализация
-          <br />
-          Александр Качкаев — <StyledExternalLink href="https://kachkaev.ru" />
-        </Copyright>
+          визуализация:
+          {brOrSpace}
+          Александр Качкаев, <StyledExternalLink href="https://kachkaev.ru" />
+        </Copyright> */}
       </Content>
     </Wrapper>
   );

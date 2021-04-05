@@ -27,6 +27,8 @@ const MapSnapshotPage: NextPage<MapSnapshotPageProps> = (props) => {
   );
 };
 
+const isBeforeMappingParty = (date: string) => date < "2021-02-20";
+
 const getDayBefore = (date: string): string => {
   const parsedDate = parse(date, "yyyy-MM-dd", new Date());
 
@@ -39,16 +41,21 @@ export const getServerSideProps: GetServerSideProps<
     date?: string;
   }
 > = async ({ params: { date = "unknown" } = {} }) => {
+  const props: MapSnapshotPageProps = {
+    date,
+    buildingCollection: await getFeatureCollectionWithBuildings(date),
+    mappingCake: await getFeatureCollectionWithMappingCake(),
+    territoryExtent: await getFeatureWithTerritoryExtent(),
+  };
+
+  if (!isBeforeMappingParty(date)) {
+    props.buildingCollectionTheDayBefore = await getFeatureCollectionWithBuildings(
+      getDayBefore(date),
+    );
+  }
+
   return {
-    props: {
-      date,
-      buildingCollection: await getFeatureCollectionWithBuildings(date),
-      buildingCollectionTheDayBefore: await getFeatureCollectionWithBuildings(
-        getDayBefore(date),
-      ),
-      mappingCake: await getFeatureCollectionWithMappingCake(),
-      territoryExtent: await getFeatureWithTerritoryExtent(),
-    },
+    props,
   };
 };
 

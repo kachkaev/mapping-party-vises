@@ -38,41 +38,50 @@ const orderedAddressStatuses: AddressStatusOrAll[] = [
 
 const RowWrapper = styled.div`
   display: table-row;
-  /* line-height: 1em;
-
-  & > * {
-    padding: 0.2em 0;
-  } */
-  /* 
-  &:last-child > * {
-    border-top: 1px solid #ddd;
-  } */
+`;
+const RowGap = styled.div`
+  display: table-row;
+  height: 0.7em;
 `;
 
 const StatusName = styled.div`
   display: table-cell;
+  width: 10.8em;
 `;
 
-const Arrow = styled.div`
-  padding: 0 0.3em 0 0.4em;
+const Color = styled.div`
+  display: inline-block;
+  margin: 0 0 0.1em 0.6em;
+  width: 0.6em;
+  height: 0.6em;
+  border-radius: 2px;
+  vertical-align: baseline;
 `;
-Arrow.defaultProps = {
-  children: "➜",
-};
 
 const Count = styled.div`
-  padding-left: 0.5em;
+  width: 4.5em;
   display: table-cell;
   text-align: right;
-
-  ${Arrow} + & {
-    padding-left: 0;
-  }
+  position: relative;
+  overflow: visible;
 `;
 
 const Remark = styled(Count)`
   opacity: 0.5;
-  padding-left: 0.5em;
+  width: 4.3em;
+`;
+
+const MapCakeSymbol = styled.span`
+  display: block;
+  position: absolute;
+  /* right: 0.1em; */
+  right: -4.25em;
+  left: 1.7em;
+  bottom: 0.5em;
+  height: 1px;
+  background: #4d75c4;
+  opacity: 0.33;
+  /* width: 4em; */
 `;
 
 const getAddressStatusName = (addressStatus?: AddressStatusOrAll) => {
@@ -100,25 +109,19 @@ const Row: React.VoidFunctionComponent<{
   return (
     <RowWrapper>
       <StatusName>{getAddressStatusName(addressStatus)}</StatusName>
-      <Count>{formatNumber(start)}</Count>
-      <Arrow
-        style={{
-          color:
-            addressStatus !== "all"
-              ? mapAddressStatusToColor(addressStatus)
-              : "transparent",
-        }}
-      />
       <Count>{formatNumber(finish)}</Count>
       <Remark>
         {diff > 0 ? "+" : "−"}
         {formatNumber(Math.abs(diff))}
       </Remark>
-
-      <Remark>
-        {diff > 0 ? "+" : "−"}
-        {Math.round(Math.abs(diff / start) * 100)}%
-      </Remark>
+      <Color
+        style={{
+          backgroundColor:
+            addressStatus !== "all"
+              ? mapAddressStatusToColor(addressStatus)
+              : "transparent",
+        }}
+      />
     </RowWrapper>
   );
 };
@@ -157,6 +160,13 @@ export const DiffLegend: React.VoidFunctionComponent<DiffLegendProps> = ({
           addressStatus={addressStatus}
         />
       ))}
+      <RowGap />
+      <RowWrapper>
+        <StatusName>куски картопирога</StatusName>
+        <Count>
+          <MapCakeSymbol />
+        </Count>
+      </RowWrapper>
     </Wrapper>
   );
 };

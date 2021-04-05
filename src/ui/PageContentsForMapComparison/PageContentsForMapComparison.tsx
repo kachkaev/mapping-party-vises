@@ -20,10 +20,10 @@ const GeoMapWrapper = styled.div`
   position: relative;
   display: inline-block;
   white-space: nowrap;
-  padding-top: 40px;
+  padding-top: 45px;
 
   & + & {
-    margin-left: 50px;
+    margin-left: 40px;
   }
 `;
 
@@ -39,7 +39,7 @@ const GeoMapTitle = styled.div`
   left: 42.5%;
   line-height: 1em;
   opacity: 40%;
-  top: 0;
+  top: 10px;
   position: absolute;
   text-align: left;
   margin-bottom: -0.5em;
@@ -48,7 +48,8 @@ const GeoMapTitle = styled.div`
 const DiffLegendContainer = styled.div`
   position: absolute;
   bottom: 0;
-  left: 52%;
+  left: 0;
+  left: 51%;
 `;
 
 const StyledDiffLegend = styled(DiffLegend)`
@@ -64,7 +65,6 @@ export interface PageContentsForMapComparisonProps {
 
 export const PageContentsForMapComparison: React.VoidFunctionComponent<PageContentsForMapComparisonProps> = ({
   territoryExtent,
-
   buildingCollectionStart,
   buildingCollectionFinish,
 }) => {

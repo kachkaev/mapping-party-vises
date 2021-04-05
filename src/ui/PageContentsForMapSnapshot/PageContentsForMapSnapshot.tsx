@@ -1,3 +1,5 @@
+import { format, parse } from "date-fns";
+import { ru } from "date-fns/locale";
 import * as React from "react";
 import styled from "styled-components";
 
@@ -18,11 +20,22 @@ const GeoMaps = styled.div`
 `;
 
 const GeoMapTitle = styled.div`
-  font-size: 3.5em;
-  opacity: 30%;
+  font-size: 4em;
+  line-height: 1.3em;
   position: absolute;
   text-align: left;
-  bottom: 100px;
+  bottom: 90px;
+`;
+
+const GeoMapTitleDayOfWeek = styled.span`
+  display: block;
+  opacity: 34%;
+  font-size: 2rem;
+  line-height: 1rem;
+`;
+
+const GeoMapTitleDate = styled.span`
+  opacity: 30%;
 `;
 
 const StyledGeoMap = styled(GeoMap)`
@@ -36,7 +49,7 @@ const StyledGeoMap = styled(GeoMap)`
 
 const DiffLegendContainer = styled.div`
   position: absolute;
-  right: 0;
+  left: 0;
   bottom: 0;
 `;
 
@@ -46,7 +59,7 @@ const StyledDiffLegend = styled(DiffLegend)`
 
 export interface PageContentsForMapSnapshotProps {
   buildingCollection: FeatureCollectionWithBuildings;
-  buildingCollectionTheDayBefore: FeatureCollectionWithBuildings;
+  buildingCollectionTheDayBefore?: FeatureCollectionWithBuildings;
   mappingCake: FeatureCollectionWithMappingCake;
   territoryExtent: TerritoryExtent;
   date: string;
@@ -59,9 +72,18 @@ export const PageContentsForMapSnapshot: React.VoidFunctionComponent<PageContent
   buildingCollectionTheDayBefore,
   date,
 }) => {
+  const dayOfWeek = React.useMemo(() => {
+    const parsedDate = parse(date, "yyyy-MM-dd", new Date());
+
+    return format(parsedDate, "eeeeee", { locale: ru });
+  }, [date]);
+
   return (
     <Figure width={size} height={size}>
-      <GeoMapTitle>{date}</GeoMapTitle>
+      <GeoMapTitle>
+        <GeoMapTitleDayOfWeek>{dayOfWeek}</GeoMapTitleDayOfWeek>{" "}
+        <GeoMapTitleDate>{date}</GeoMapTitleDate>
+      </GeoMapTitle>
       <GeoMaps>
         <StyledGeoMap
           padding={12}
@@ -72,7 +94,9 @@ export const PageContentsForMapSnapshot: React.VoidFunctionComponent<PageContent
       </GeoMaps>
       <DiffLegendContainer>
         <StyledDiffLegend
-          buildingCollectionStart={buildingCollectionTheDayBefore}
+          buildingCollectionStart={
+            buildingCollectionTheDayBefore ?? buildingCollection
+          }
           buildingCollectionFinish={buildingCollection}
         />
       </DiffLegendContainer>
