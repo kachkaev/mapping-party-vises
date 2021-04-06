@@ -10,7 +10,7 @@ import {
 } from "../../shared/types";
 import { Figure } from "../shared/Figure";
 import { GeoMap } from "../shared/GeoMap";
-import { DiffLegend } from "./DiffLegend";
+import { SnapshotLegend } from "./SnapshotLegend";
 
 const size = 720;
 
@@ -20,11 +20,12 @@ const GeoMaps = styled.div`
 `;
 
 const GeoMapTitle = styled.div`
-  font-size: 4em;
+  font-size: 3.3em;
+  font-variant-numeric: tabular-nums;
   line-height: 1.3em;
   position: absolute;
   text-align: left;
-  bottom: 90px;
+  bottom: 105px;
 `;
 
 const GeoMapTitleDayOfWeek = styled.span`
@@ -47,14 +48,10 @@ const StyledGeoMap = styled(GeoMap)`
   /* ↑ not supported by ff */
 `;
 
-const DiffLegendContainer = styled.div`
+const StyledLegend = styled(SnapshotLegend)`
   position: absolute;
   left: 0;
   bottom: 0;
-`;
-
-const StyledDiffLegend = styled(DiffLegend)`
-  position: relative;
 `;
 
 export interface PageContentsForMapSnapshotProps {
@@ -79,7 +76,7 @@ export const PageContentsForMapSnapshot: React.VoidFunctionComponent<PageContent
   }, [date]);
 
   return (
-    <Figure width={size} height={size}>
+    <Figure width={size} height={size - 20}>
       <GeoMapTitle>
         <GeoMapTitleDayOfWeek>{dayOfWeek}</GeoMapTitleDayOfWeek>{" "}
         <GeoMapTitleDate>{date}</GeoMapTitleDate>
@@ -92,14 +89,10 @@ export const PageContentsForMapSnapshot: React.VoidFunctionComponent<PageContent
           mappingCake={mappingCake}
         />
       </GeoMaps>
-      <DiffLegendContainer>
-        <StyledDiffLegend
-          buildingCollectionStart={
-            buildingCollectionTheDayBefore ?? buildingCollection
-          }
-          buildingCollectionFinish={buildingCollection}
-        />
-      </DiffLegendContainer>
+      <StyledLegend
+        buildingCollectionDayBefore={buildingCollectionTheDayBefore}
+        buildingCollection={buildingCollection}
+      />
     </Figure>
   );
 };

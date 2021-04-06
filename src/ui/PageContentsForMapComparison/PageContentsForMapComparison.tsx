@@ -36,7 +36,8 @@ const StyledGeoMap = styled(GeoMap)`
 
 const GeoMapTitle = styled.div`
   font-size: 2em;
-  left: 42.5%;
+  left: 30%;
+
   line-height: 1em;
   opacity: 40%;
   top: 10px;
@@ -49,7 +50,7 @@ const DiffLegendContainer = styled.div`
   position: absolute;
   bottom: 0;
   left: 0;
-  left: 51%;
+  left: 52%;
 `;
 
 const StyledDiffLegend = styled(DiffLegend)`
@@ -72,22 +73,14 @@ export const PageContentsForMapComparison: React.VoidFunctionComponent<PageConte
     <Figure width={1000} height={550}>
       <GeoMaps>
         <GeoMapWrapper>
-          <GeoMapTitle>
-            старт
-            <br />
-            2021-02-20
-          </GeoMapTitle>
+          <GeoMapTitle>старт: 2021-02-20</GeoMapTitle>
           <StyledGeoMap
             buildingCollection={buildingCollectionStart}
             territoryExtent={territoryExtent}
           />
         </GeoMapWrapper>
         <GeoMapWrapper>
-          <GeoMapTitle>
-            финиш
-            <br />
-            2021-03-31
-          </GeoMapTitle>
+          <GeoMapTitle>финиш: 2021-03-31</GeoMapTitle>
           <StyledGeoMap
             buildingCollection={buildingCollectionFinish}
             territoryExtent={territoryExtent}

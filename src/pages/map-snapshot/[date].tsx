@@ -1,4 +1,3 @@
-import { format, parse, subDays } from "date-fns";
 import { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
@@ -6,6 +5,7 @@ import * as React from "react";
 import { getFeatureCollectionWithBuildings } from "../../shared/getFeatureCollectionWithBuildings";
 import { getFeatureCollectionWithMappingCake } from "../../shared/getFeatureCollectionWithMappingCake";
 import { getFeatureWithTerritoryExtent } from "../../shared/getFeatureWithTerritoryExtent";
+import { isOnMappingParty, shiftDate } from "../../shared/helpersForDates";
 import { PageContentsForMapSnapshotProps } from "../../ui/PageContentsForMapSnapshot";
 import { PageMetadata } from "../../ui/PageMetadata";
 
@@ -27,14 +27,6 @@ const MapSnapshotPage: NextPage<MapSnapshotPageProps> = (props) => {
   );
 };
 
-const isBeforeMappingParty = (date: string) => date < "2021-02-20";
-
-const getDayBefore = (date: string): string => {
-  const parsedDate = parse(date, "yyyy-MM-dd", new Date());
-
-  return format(subDays(parsedDate, 1), "yyyy-MM-dd");
-};
-
 export const getServerSideProps: GetServerSideProps<
   MapSnapshotPageProps,
   {
@@ -48,9 +40,9 @@ export const getServerSideProps: GetServerSideProps<
     territoryExtent: await getFeatureWithTerritoryExtent(),
   };
 
-  if (!isBeforeMappingParty(date)) {
+  if (isOnMappingParty(date)) {
     props.buildingCollectionTheDayBefore = await getFeatureCollectionWithBuildings(
-      getDayBefore(date),
+      shiftDate(date, -1),
     );
   }
 

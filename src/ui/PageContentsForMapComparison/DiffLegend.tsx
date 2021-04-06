@@ -1,96 +1,42 @@
-import _ from "lodash";
 import * as React from "react";
 import styled from "styled-components";
 
-import {
-  AddressStatus,
-  getAddressStatus,
-  mapAddressStatusToColor,
-} from "../../shared/helpersForAddresses";
 import { FeatureCollectionWithBuildings } from "../../shared/types";
+import {
+  AddressStatusOrAll,
+  AddressSummary,
+  AddressSymbol,
+  Count,
+  CountEl,
+  Delta,
+  generateAddressSummary,
+  getAddressStatusName,
+  LegendRow,
+  orderedAddressStatuses,
+  StatusName,
+  SymbolWrapper,
+} from "../shared/legend";
 
-const f = Intl.NumberFormat("ru");
-const formatNumber = (n: number) => {
-  return f.format(n).replace(/\u00A0/g, "\u202F");
-};
-type AddressStatusOrAll = AddressStatus | "all";
-
-type Summary = Record<AddressStatusOrAll, number>;
-
-const generateSummary = (
-  featureCollection: FeatureCollectionWithBuildings,
-): Summary => {
-  const result = _.countBy(featureCollection.features, (feature) =>
-    getAddressStatus(feature),
-  ) as Summary;
-
-  result["all"] = _.sum(_.values(result));
-
-  return result;
-};
-
-const orderedAddressStatuses: AddressStatusOrAll[] = [
-  "addressPresent",
-  "addressMissing",
-  "addressNotRequired",
-  "all",
-];
-
-const RowWrapper = styled.div`
-  display: table-row;
-  /* line-height: 1em;
-
-  & > * {
-    padding: 0.2em 0;
-  } */
-  /* 
-  &:last-child > * {
-    border-top: 1px solid #ddd;
-  } */
+const Pointer = styled.span`
+  display: inline-block;
+  opacity: 0.3;
 `;
 
-const StatusName = styled.div`
-  display: table-cell;
-`;
-
-const Arrow = styled.div`
-  padding: 0 0.3em 0 0.4em;
-`;
-Arrow.defaultProps = {
-  children: "➜",
+Pointer.defaultProps = {
+  children: "↑",
 };
 
-const Count = styled.div`
-  padding-left: 0.5em;
-  display: table-cell;
-  text-align: right;
+const DeltaPercent = styled(Delta)`
+  width: 4.2em;
 
-  ${Arrow} + & {
-    padding-left: 0;
+  :after {
+    content: "%";
   }
 `;
-
-const Remark = styled(Count)`
-  opacity: 0.5;
-  padding-left: 0.5em;
-`;
-
-const getAddressStatusName = (addressStatus?: AddressStatusOrAll) => {
-  switch (addressStatus) {
-    case "addressPresent":
-      return "адрес есть";
-    case "addressMissing":
-      return "адреса не хватает";
-    case "addressNotRequired":
-      return "адрес необязателен";
-  }
-
-  return "все здания";
-};
 
 const Row: React.VoidFunctionComponent<{
-  startSummary: Summary;
-  finishSummary: Summary;
+  startSummary: AddressSummary;
+  finishSummary: AddressSummary;
   addressStatus: AddressStatusOrAll;
 }> = ({ startSummary, finishSummary, addressStatus }) => {
   const start = startSummary[addressStatus];
@@ -98,28 +44,14 @@ const Row: React.VoidFunctionComponent<{
   const diff = finish - start;
 
   return (
-    <RowWrapper>
+    <LegendRow>
+      <AddressSymbol addressStatus={addressStatus} />
       <StatusName>{getAddressStatusName(addressStatus)}</StatusName>
-      <Count>{formatNumber(start)}</Count>
-      <Arrow
-        style={{
-          color:
-            addressStatus !== "all"
-              ? mapAddressStatusToColor(addressStatus)
-              : "transparent",
-        }}
-      />
-      <Count>{formatNumber(finish)}</Count>
-      <Remark>
-        {diff > 0 ? "+" : "−"}
-        {formatNumber(Math.abs(diff))}
-      </Remark>
-
-      <Remark>
-        {diff > 0 ? "+" : "−"}
-        {Math.round(Math.abs(diff / start) * 100)}%
-      </Remark>
-    </RowWrapper>
+      <Count value={start} />
+      <Count value={finish} />
+      <Delta value={diff} />
+      <DeltaPercent value={Math.round((diff / start) * 100)} />
+    </LegendRow>
   );
 };
 
@@ -139,16 +71,28 @@ export const DiffLegend: React.VoidFunctionComponent<DiffLegendProps> = ({
   ...rest
 }) => {
   const startSummary = React.useMemo(
-    () => generateSummary(buildingCollectionStart),
+    () => generateAddressSummary(buildingCollectionStart),
     [buildingCollectionStart],
   );
   const finishSummary = React.useMemo(
-    () => generateSummary(buildingCollectionFinish),
+    () => generateAddressSummary(buildingCollectionFinish),
     [buildingCollectionFinish],
   );
 
   return (
     <Wrapper {...rest}>
+      <LegendRow>
+        <SymbolWrapper />
+        <StatusName />
+        <CountEl>
+          <Pointer
+            style={{ transform: "rotate(-45deg)", marginRight: "0.4em" }}
+          />
+        </CountEl>
+        <CountEl>
+          <Pointer style={{ transform: "rotate(45deg)" }} />
+        </CountEl>
+      </LegendRow>
       {orderedAddressStatuses.map((addressStatus) => (
         <Row
           key={addressStatus}

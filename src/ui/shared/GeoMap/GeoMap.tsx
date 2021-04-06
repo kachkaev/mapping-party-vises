@@ -97,9 +97,9 @@ export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
               featureProps={() => ({
                 fill: "none",
                 stroke: "#4d75c4",
-                strokeWidth: 1 * scaleFactor,
+                strokeWidth: 2 * scaleFactor,
               })}
-              opacity={0.33}
+              opacity={0.2}
               features={mappingCake.features}
             />
           ) : null}

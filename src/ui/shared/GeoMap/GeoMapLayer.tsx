@@ -26,7 +26,7 @@ const GeoMapLayer: React.VoidFunctionComponent<GeoMapLayerProps> = ({
   ...rest
 }) => {
   // https://stackoverflow.com/a/63357336/1818285
-  const chunkedFeatures = _.chunk(features, 1000).slice(0, 5);
+  const chunkedFeatures = _.chunk(features, 1000); // .slice(0, 5);
 
   return (
     <g {...rest}>

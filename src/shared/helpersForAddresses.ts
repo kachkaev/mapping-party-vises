@@ -26,6 +26,7 @@ export const buildingTypesWithOptionalAddress = [
   "ruins",
   "service",
   "shed",
+  "storage_tank",
   "transformer_tower",
   "warehouse",
 ];

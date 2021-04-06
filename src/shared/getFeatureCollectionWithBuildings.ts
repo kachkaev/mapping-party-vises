@@ -1,5 +1,6 @@
 import execa from "execa";
 
+import { shiftDate } from "./helpersForDates";
 import { FeatureCollectionWithBuildings } from "./types";
 
 export const getFeatureCollectionWithBuildings = async (
@@ -12,7 +13,7 @@ export const getFeatureCollectionWithBuildings = async (
     "git",
     [
       "log",
-      `--until="${date} 23:59 +0300"`,
+      `--until="${shiftDate(date, 1)} 03:15 +0300"`,
       "--format=%H",
       "--",
       relativeFilePath,
