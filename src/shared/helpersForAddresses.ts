@@ -63,13 +63,15 @@ export const mapAddressStatusToColor = (
   switch (addressStatus) {
     // Colorbrewer PiYG
     case "addressPresent":
-      // return "#276419";
       // return "#7fbc41";
-      return "#4d9221";
+      return "#4dac26";
+    // return "#4d9221";
+    // return "#276419";
     case "addressMissing":
-      // return "#8e0152";
       // return "#de77ae";
-      return "#c51b7d";
+      return "#d01c8b";
+    // return "#c51b7d";
+    // return "#8e0152";
   }
 
   return "#a4a4a4";

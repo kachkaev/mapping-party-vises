@@ -9,6 +9,20 @@ import { Figure } from "../shared/Figure";
 import { GeoMap } from "../shared/GeoMap";
 import { LegendForMapComparison } from "./LegendForMapComparison";
 
+const sampleBuildings = (
+  buildingCollection: FeatureCollectionWithBuildings,
+): FeatureCollectionWithBuildings => {
+  const features = buildingCollection.features.filter(
+    // (feature, index) => index % 3 === 0,
+    () => true,
+  );
+
+  return {
+    ...buildingCollection,
+    features,
+  };
+};
+
 const GeoMaps = styled.div`
   white-space: nowrap;
   padding-top: 20px;
@@ -75,14 +89,14 @@ export const FigureWithMapComparison: React.VoidFunctionComponent<FigureWithMapC
         <GeoMapWrapper>
           <GeoMapTitle>старт: 2021-02-20</GeoMapTitle>
           <StyledGeoMap
-            buildingCollection={buildingCollectionStart}
+            buildingCollection={sampleBuildings(buildingCollectionStart)}
             territoryExtent={territoryExtent}
           />
         </GeoMapWrapper>
         <GeoMapWrapper>
           <GeoMapTitle>финиш: 2021-03-31</GeoMapTitle>
           <StyledGeoMap
-            buildingCollection={buildingCollectionFinish}
+            buildingCollection={sampleBuildings(buildingCollectionFinish)}
             territoryExtent={territoryExtent}
           />
         </GeoMapWrapper>

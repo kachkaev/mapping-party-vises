@@ -42,8 +42,7 @@ const MapCakeSymbol = styled.span`
   width: 0.6em;
   height: 2px;
   background: #4d75c4;
-  opacity: 0.2;
-  /* width: 4em; */
+  opacity: 0.3;
 `;
 
 const LegendRow: React.VoidFunctionComponent<{
