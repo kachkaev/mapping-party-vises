@@ -4,17 +4,17 @@ import * as React from "react";
 
 import { getFeatureCollectionWithBuildings } from "../shared/getFeatureCollectionWithBuildings";
 import { getFeatureWithTerritoryExtent } from "../shared/getFeatureWithTerritoryExtent";
-import { PageContentsForMapComparisonProps } from "../ui/PageContentsForMapComparison";
+import { FigureWithMapComparisonProps } from "../ui/FigureWithMapComparison";
 import { PageMetadata } from "../ui/PageMetadata";
 
-const PageContentsForMapComparison = dynamic<PageContentsForMapComparisonProps>(
-  import("../ui/PageContentsForMapComparison").then(
-    (m) => m.PageContentsForMapComparison,
+const PageContentsForMapComparison = dynamic<FigureWithMapComparisonProps>(
+  import("../ui/FigureWithMapComparison").then(
+    (m) => m.FigureWithMapComparison,
   ),
   { ssr: false },
 );
 
-type MapComparisonPageProps = PageContentsForMapComparisonProps;
+type MapComparisonPageProps = FigureWithMapComparisonProps;
 
 const MapComparisonPage: NextPage<MapComparisonPageProps> = (props) => {
   return (

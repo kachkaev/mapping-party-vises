@@ -10,7 +10,7 @@ import {
 } from "../../shared/types";
 import { Figure } from "../shared/Figure";
 import { GeoMap } from "../shared/GeoMap";
-import { SnapshotLegend } from "./SnapshotLegend";
+import { LegendForMapSnapshot } from "./LegendForMapSnapshot";
 
 const size = 720;
 
@@ -48,13 +48,13 @@ const StyledGeoMap = styled(GeoMap)`
   /* ↑ not supported by ff */
 `;
 
-const StyledLegend = styled(SnapshotLegend)`
+const StyledLegend = styled(LegendForMapSnapshot)`
   position: absolute;
   left: 0;
   bottom: 0;
 `;
 
-export interface PageContentsForMapSnapshotProps {
+export interface FigureWithMapSnapshotProps {
   buildingCollection: FeatureCollectionWithBuildings;
   buildingCollectionTheDayBefore?: FeatureCollectionWithBuildings;
   mappingCake: FeatureCollectionWithMappingCake;
@@ -62,7 +62,7 @@ export interface PageContentsForMapSnapshotProps {
   date: string;
 }
 
-export const PageContentsForMapSnapshot: React.VoidFunctionComponent<PageContentsForMapSnapshotProps> = ({
+export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSnapshotProps> = ({
   territoryExtent,
   mappingCake,
   buildingCollection,

@@ -11,10 +11,10 @@ import {
   Delta,
   generateAddressSummary,
   getAddressStatusName,
-  LegendRow,
+  LegendRowEl,
   orderedAddressStatuses,
-  StatusName,
-  SymbolWrapper,
+  StatusNameEl,
+  SymbolWrapperEl,
 } from "../shared/legend";
 
 const Pointer = styled.span`
@@ -44,14 +44,14 @@ const Row: React.VoidFunctionComponent<{
   const diff = finish - start;
 
   return (
-    <LegendRow>
+    <LegendRowEl>
       <AddressSymbol addressStatus={addressStatus} />
-      <StatusName>{getAddressStatusName(addressStatus)}</StatusName>
+      <StatusNameEl>{getAddressStatusName(addressStatus)}</StatusNameEl>
       <Count value={start} />
       <Count value={finish} />
       <Delta value={diff} />
       <DeltaPercent value={Math.round((diff / start) * 100)} />
-    </LegendRow>
+    </LegendRowEl>
   );
 };
 
@@ -59,13 +59,14 @@ const Wrapper = styled.div`
   display: table;
 `;
 
-export interface DiffLegendProps extends React.HTMLAttributes<HTMLDivElement> {
+export interface LegendForMapComparisonProps
+  extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   buildingCollectionStart: FeatureCollectionWithBuildings;
   buildingCollectionFinish: FeatureCollectionWithBuildings;
 }
 
-export const DiffLegend: React.VoidFunctionComponent<DiffLegendProps> = ({
+export const LegendForMapComparison: React.VoidFunctionComponent<LegendForMapComparisonProps> = ({
   buildingCollectionStart,
   buildingCollectionFinish,
   ...rest
@@ -81,9 +82,9 @@ export const DiffLegend: React.VoidFunctionComponent<DiffLegendProps> = ({
 
   return (
     <Wrapper {...rest}>
-      <LegendRow>
-        <SymbolWrapper />
-        <StatusName />
+      <LegendRowEl>
+        <SymbolWrapperEl />
+        <StatusNameEl />
         <CountEl>
           <Pointer
             style={{ transform: "rotate(-45deg)", marginRight: "0.4em" }}
@@ -92,7 +93,7 @@ export const DiffLegend: React.VoidFunctionComponent<DiffLegendProps> = ({
         <CountEl>
           <Pointer style={{ transform: "rotate(45deg)" }} />
         </CountEl>
-      </LegendRow>
+      </LegendRowEl>
       {orderedAddressStatuses.map((addressStatus) => (
         <Row
           key={addressStatus}

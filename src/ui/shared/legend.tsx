@@ -37,11 +37,11 @@ export const orderedAddressStatuses: AddressStatusOrAll[] = [
   "addressNotRequired",
 ];
 
-export const LegendRow = styled.div`
+export const LegendRowEl = styled.div`
   display: table-row;
 `;
 
-export const StatusName = styled.div`
+export const StatusNameEl = styled.div`
   display: table-cell;
 `;
 
@@ -53,7 +53,7 @@ export const CountEl = styled.div`
   overflow: visible;
 `;
 
-export const SymbolWrapper = styled.div`
+export const SymbolWrapperEl = styled.div`
   display: table-cell;
   padding-left: 2px;
   width: 1.3em;
@@ -72,7 +72,7 @@ export const getAddressStatusName = (addressStatus?: AddressStatusOrAll) => {
   return "все здания";
 };
 
-const Color = styled.div`
+const ColorEl = styled.div`
   display: inline-block;
   width: 0.6em;
   height: 0.6em;
@@ -84,15 +84,15 @@ export const AddressSymbol: React.VoidFunctionComponent<{
   addressStatus: AddressStatusOrAll;
 }> = ({ addressStatus }) => {
   return (
-    <SymbolWrapper>
+    <SymbolWrapperEl>
       {addressStatus !== "all" ? (
-        <Color
+        <ColorEl
           style={{
             backgroundColor: mapAddressStatusToColor(addressStatus),
           }}
         />
       ) : null}
-    </SymbolWrapper>
+    </SymbolWrapperEl>
   );
 };
 

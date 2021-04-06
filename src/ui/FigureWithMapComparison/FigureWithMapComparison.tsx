@@ -7,7 +7,7 @@ import {
 } from "../../shared/types";
 import { Figure } from "../shared/Figure";
 import { GeoMap } from "../shared/GeoMap";
-import { DiffLegend } from "./DiffLegend";
+import { LegendForMapComparison } from "./LegendForMapComparison";
 
 const GeoMaps = styled.div`
   white-space: nowrap;
@@ -53,18 +53,18 @@ const DiffLegendContainer = styled.div`
   left: 52%;
 `;
 
-const StyledDiffLegend = styled(DiffLegend)`
+const StyledDiffLegend = styled(LegendForMapComparison)`
   position: relative;
   left: -50%;
 `;
 
-export interface PageContentsForMapComparisonProps {
+export interface FigureWithMapComparisonProps {
   buildingCollectionStart: FeatureCollectionWithBuildings;
   buildingCollectionFinish: FeatureCollectionWithBuildings;
   territoryExtent: TerritoryExtent;
 }
 
-export const PageContentsForMapComparison: React.VoidFunctionComponent<PageContentsForMapComparisonProps> = ({
+export const FigureWithMapComparison: React.VoidFunctionComponent<FigureWithMapComparisonProps> = ({
   territoryExtent,
   buildingCollectionStart,
   buildingCollectionFinish,

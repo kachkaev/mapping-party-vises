@@ -11,17 +11,17 @@ import {
   Delta,
   generateAddressSummary,
   getAddressStatusName,
-  LegendRow,
+  LegendRowEl,
   orderedAddressStatuses,
-  StatusName,
-  SymbolWrapper,
+  StatusNameEl,
+  SymbolWrapperEl,
 } from "../shared/legend";
 
 const StyledExternalLink = styled(ExternalLink)`
   color: inherit;
 `;
 
-const StyledStatusName = styled(StatusName)`
+const StyledStatusName = styled(StatusNameEl)`
   width: 10.8em;
 `;
 
@@ -46,7 +46,7 @@ const MapCakeSymbol = styled.span`
   /* width: 4em; */
 `;
 
-const SnapshotLegendRow: React.VoidFunctionComponent<{
+const LegendRow: React.VoidFunctionComponent<{
   summaryDayBefore?: AddressSummary;
   summary: AddressSummary;
   addressStatus: AddressStatusOrAll;
@@ -57,14 +57,14 @@ const SnapshotLegendRow: React.VoidFunctionComponent<{
     : undefined;
 
   return (
-    <LegendRow>
+    <LegendRowEl>
       <AddressSymbol addressStatus={addressStatus} />
       <StyledStatusName>
         {getAddressStatusName(addressStatus)}{" "}
       </StyledStatusName>
       <Count value={value} />
       {typeof delta === "number" ? <Delta value={delta} /> : null}
-    </LegendRow>
+    </LegendRowEl>
   );
 };
 
@@ -72,14 +72,14 @@ const Wrapper = styled.div`
   display: table;
 `;
 
-export interface SnapshotLegendProps
+export interface LegendForMapSnapshotProps
   extends React.HTMLAttributes<HTMLDivElement> {
   children?: React.ReactNode;
   buildingCollectionDayBefore?: FeatureCollectionWithBuildings;
   buildingCollection: FeatureCollectionWithBuildings;
 }
 
-export const SnapshotLegend: React.VoidFunctionComponent<SnapshotLegendProps> = ({
+export const LegendForMapSnapshot: React.VoidFunctionComponent<LegendForMapSnapshotProps> = ({
   buildingCollectionDayBefore,
   buildingCollection,
   ...rest
@@ -99,7 +99,7 @@ export const SnapshotLegend: React.VoidFunctionComponent<SnapshotLegendProps> = 
   return (
     <Wrapper {...rest}>
       {orderedAddressStatuses.map((addressStatus) => (
-        <SnapshotLegendRow
+        <LegendRow
           key={addressStatus}
           summaryDayBefore={summaryDayBefore}
           summary={summary}
@@ -107,17 +107,17 @@ export const SnapshotLegend: React.VoidFunctionComponent<SnapshotLegendProps> = 
         />
       ))}
       <RowGap />
-      <LegendRow>
-        <SymbolWrapper>
+      <LegendRowEl>
+        <SymbolWrapperEl>
           <MapCakeSymbol />
-        </SymbolWrapper>
+        </SymbolWrapperEl>
         <StyledStatusName>
           <MappingCake>
             куски картопирога:{" "}
             <StyledExternalLink href="https://mapcraft.nanodesu.ru/pie/947" />
           </MappingCake>
         </StyledStatusName>
-      </LegendRow>
+      </LegendRowEl>
     </Wrapper>
   );
 };

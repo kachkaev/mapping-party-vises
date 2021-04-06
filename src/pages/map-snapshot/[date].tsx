@@ -6,17 +6,15 @@ import { getFeatureCollectionWithBuildings } from "../../shared/getFeatureCollec
 import { getFeatureCollectionWithMappingCake } from "../../shared/getFeatureCollectionWithMappingCake";
 import { getFeatureWithTerritoryExtent } from "../../shared/getFeatureWithTerritoryExtent";
 import { isOnMappingParty, shiftDate } from "../../shared/helpersForDates";
-import { PageContentsForMapSnapshotProps } from "../../ui/PageContentsForMapSnapshot";
+import { FigureWithMapSnapshotProps } from "../../ui/FigureWithMapSnapshot";
 import { PageMetadata } from "../../ui/PageMetadata";
 
-const PageContentsForMapSnapshot = dynamic<PageContentsForMapSnapshotProps>(
-  import("../../ui/PageContentsForMapSnapshot").then(
-    (m) => m.PageContentsForMapSnapshot,
-  ),
+const PageContentsForMapSnapshot = dynamic<FigureWithMapSnapshotProps>(
+  import("../../ui/FigureWithMapSnapshot").then((m) => m.FigureWithMapSnapshot),
   { ssr: false },
 );
 
-type MapSnapshotPageProps = PageContentsForMapSnapshotProps;
+type MapSnapshotPageProps = FigureWithMapSnapshotProps;
 
 const MapSnapshotPage: NextPage<MapSnapshotPageProps> = (props) => {
   return (
