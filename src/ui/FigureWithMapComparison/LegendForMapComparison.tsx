@@ -87,11 +87,13 @@ export const LegendForMapComparison: React.VoidFunctionComponent<LegendForMapCom
         <StatusNameEl />
         <CountEl>
           <Pointer
-            style={{ transform: "rotate(-45deg)", marginRight: "0.4em" }}
+            style={{ transform: "rotate(-45deg)", marginRight: "1.5em" }}
           />
         </CountEl>
         <CountEl>
-          <Pointer style={{ transform: "rotate(45deg)" }} />
+          <Pointer
+            style={{ transform: "rotate(45deg)", marginRight: ".7em" }}
+          />
         </CountEl>
       </LegendRowEl>
       {orderedAddressStatuses.map((addressStatus) => (

@@ -63,7 +63,7 @@ export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
       return {
         fill,
         stroke: fill,
-        strokeWidth: 0.7 * scaleFactor,
+        strokeWidth: 0.5 * scaleFactor,
       };
     },
     [scaleFactor],

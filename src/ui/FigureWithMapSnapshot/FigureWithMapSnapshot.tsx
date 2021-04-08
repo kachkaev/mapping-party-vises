@@ -12,12 +12,7 @@ import { Figure } from "../shared/Figure";
 import { GeoMap } from "../shared/GeoMap";
 import { LegendForMapSnapshot } from "./LegendForMapSnapshot";
 
-const size = 720;
-
-const GeoMaps = styled.div`
-  white-space: nowrap;
-  padding-top: 20px;
-`;
+const size = 750;
 
 const GeoMapTitle = styled.div`
   font-size: 3.3em;
@@ -40,10 +35,10 @@ const GeoMapTitleDate = styled.span`
 `;
 
 const StyledGeoMap = styled(GeoMap)`
-  margin: 0 auto;
+  margin: 20px auto 0;
   left: -7px;
-  width: ${size}px;
-  height: ${size / 1.2}px;
+  width: ${size - 30}px;
+  height: ${(size - 30) / 1.2}px;
   /* aspect-ratio: 1.2; */
   /* ↑ not supported by ff */
 `;
@@ -81,14 +76,12 @@ export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSna
         <GeoMapTitleDayOfWeek>{dayOfWeek}</GeoMapTitleDayOfWeek>{" "}
         <GeoMapTitleDate>{date}</GeoMapTitleDate>
       </GeoMapTitle>
-      <GeoMaps>
-        <StyledGeoMap
-          padding={12}
-          buildingCollection={buildingCollection}
-          territoryExtent={territoryExtent}
-          mappingCake={mappingCake}
-        />
-      </GeoMaps>
+      <StyledGeoMap
+        padding={12}
+        buildingCollection={buildingCollection}
+        territoryExtent={territoryExtent}
+        mappingCake={mappingCake}
+      />
       <StyledLegend
         buildingCollectionDayBefore={buildingCollectionTheDayBefore}
         buildingCollection={buildingCollection}

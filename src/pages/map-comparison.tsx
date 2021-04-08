@@ -29,10 +29,10 @@ export const getStaticProps: GetStaticProps<MapComparisonPageProps> = async () =
   return {
     props: {
       buildingCollectionStart: await getFeatureCollectionWithBuildings(
-        "2021-02-19",
+        process.env.NEXT_PUBLIC_MAPPING_PARTY_DATE_START ?? "unset",
       ),
       buildingCollectionFinish: await getFeatureCollectionWithBuildings(
-        "2021-03-31",
+        process.env.NEXT_PUBLIC_MAPPING_PARTY_DATE_FINISH ?? "unset",
       ),
       territoryExtent: await getFeatureWithTerritoryExtent(),
     },

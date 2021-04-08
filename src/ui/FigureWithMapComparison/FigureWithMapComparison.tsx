@@ -25,16 +25,15 @@ const sampleBuildings = (
 
 const GeoMaps = styled.div`
   white-space: nowrap;
-  padding-top: 20px;
-  padding-bottom: 50px;
+  padding-top: 15px;
 `;
 
 const GeoMapWrapper = styled.div`
-  width: 475px;
+  width: 455px;
   position: relative;
   display: inline-block;
   white-space: nowrap;
-  padding-top: 45px;
+  padding-top: 40px;
 
   & + & {
     margin-left: 40px;
@@ -42,8 +41,8 @@ const GeoMapWrapper = styled.div`
 `;
 
 const StyledGeoMap = styled(GeoMap)`
-  width: 475px;
-  height: ${475 / 1.2}px;
+  width: 455px;
+  height: ${455 / 1.2}px;
   /* aspect-ratio: 1.2; */
   /* ↑ not supported by ff */
 `;
@@ -87,14 +86,18 @@ export const FigureWithMapComparison: React.VoidFunctionComponent<FigureWithMapC
     <Figure width={1000} height={550}>
       <GeoMaps>
         <GeoMapWrapper>
-          <GeoMapTitle>старт: 2021-02-20</GeoMapTitle>
+          <GeoMapTitle>
+            старт: {process.env.NEXT_PUBLIC_MAPPING_PARTY_DATE_START}
+          </GeoMapTitle>
           <StyledGeoMap
             buildingCollection={sampleBuildings(buildingCollectionStart)}
             territoryExtent={territoryExtent}
           />
         </GeoMapWrapper>
         <GeoMapWrapper>
-          <GeoMapTitle>финиш: 2021-03-31</GeoMapTitle>
+          <GeoMapTitle>
+            финиш: {process.env.NEXT_PUBLIC_MAPPING_PARTY_DATE_FINISH}
+          </GeoMapTitle>
           <StyledGeoMap
             buildingCollection={sampleBuildings(buildingCollectionFinish)}
             territoryExtent={territoryExtent}

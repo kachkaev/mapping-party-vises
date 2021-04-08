@@ -23,12 +23,14 @@ const StyledExternalLink = styled(ExternalLink)`
 
 const StyledStatusName = styled(StatusNameEl)`
   width: 10.8em;
+  position: relative;
 `;
 
 const MappingCake = styled.span`
   position: absolute;
   white-space: nowrap;
   overflow: visible;
+  top: 0;
 `;
 
 const RowGap = styled.div`

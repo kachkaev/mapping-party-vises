@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { ExternalLink } from "./ExternalLink";
 
 const Wrapper = styled.div`
+  box-sizing: border-box;
   padding: 10px 20px 15px;
   box-shadow: 2px 2px 10px #ddd;
   display: inline-block;
