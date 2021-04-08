@@ -2,8 +2,10 @@ import { GetStaticProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
 
-import { getFeatureCollectionWithBuildings } from "../shared/getFeatureCollectionWithBuildings";
-import { getFeatureWithTerritoryExtent } from "../shared/getFeatureWithTerritoryExtent";
+import {
+  obtainFeatureCollectionWithBuildings,
+  obtainFeatureWithTerritoryExtent,
+} from "../shared/data";
 import { FigureWithMapComparisonProps } from "../ui/FigureWithMapComparison";
 import { PageMetadata } from "../ui/PageMetadata";
 
@@ -28,13 +30,13 @@ const MapComparisonPage: NextPage<MapComparisonPageProps> = (props) => {
 export const getStaticProps: GetStaticProps<MapComparisonPageProps> = async () => {
   return {
     props: {
-      buildingCollectionStart: await getFeatureCollectionWithBuildings(
+      buildingCollectionStart: await obtainFeatureCollectionWithBuildings(
         process.env.NEXT_PUBLIC_MAPPING_PARTY_DATE_START ?? "unset",
       ),
-      buildingCollectionFinish: await getFeatureCollectionWithBuildings(
+      buildingCollectionFinish: await obtainFeatureCollectionWithBuildings(
         process.env.NEXT_PUBLIC_MAPPING_PARTY_DATE_FINISH ?? "unset",
       ),
-      territoryExtent: await getFeatureWithTerritoryExtent(),
+      territoryExtent: await obtainFeatureWithTerritoryExtent(),
     },
   };
 };

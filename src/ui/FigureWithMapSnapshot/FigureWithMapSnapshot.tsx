@@ -7,10 +7,12 @@ import {
   FeatureCollectionWithBuildings,
   FeatureCollectionWithMappingCake,
   TerritoryExtent,
+  TimelineSummary,
 } from "../../shared/types";
 import { Figure } from "../shared/Figure";
 import { GeoMap } from "../shared/GeoMap";
 import { LegendForMapSnapshot } from "./LegendForMapSnapshot";
+import { MiniTimeline } from "./MiniTimeline";
 
 const size = 750;
 
@@ -35,7 +37,7 @@ const GeoMapTitleDate = styled.span`
 `;
 
 const StyledGeoMap = styled(GeoMap)`
-  margin: 20px auto 0;
+  margin: 25px auto 0;
   left: -7px;
   width: ${size - 30}px;
   height: ${(size - 30) / 1.2}px;
@@ -49,11 +51,18 @@ const StyledLegend = styled(LegendForMapSnapshot)`
   bottom: 0;
 `;
 
+const StyledMiniTimeline = styled(MiniTimeline)`
+  position: absolute;
+  right: 0;
+  bottom: 0;
+`;
+
 export interface FigureWithMapSnapshotProps {
   buildingCollection: FeatureCollectionWithBuildings;
   buildingCollectionTheDayBefore?: FeatureCollectionWithBuildings;
   mappingCake: FeatureCollectionWithMappingCake;
   territoryExtent: TerritoryExtent;
+  timelineSummaries?: TimelineSummary[];
   date: string;
 }
 
@@ -62,6 +71,7 @@ export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSna
   mappingCake,
   buildingCollection,
   buildingCollectionTheDayBefore,
+  timelineSummaries,
   date,
 }) => {
   const dayOfWeek = React.useMemo(() => {
@@ -71,7 +81,7 @@ export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSna
   }, [date]);
 
   return (
-    <Figure width={size} height={size - 20}>
+    <Figure width={size} height={size}>
       <GeoMapTitle>
         <GeoMapTitleDayOfWeek>{dayOfWeek}</GeoMapTitleDayOfWeek>{" "}
         <GeoMapTitleDate>{date}</GeoMapTitleDate>
@@ -86,6 +96,9 @@ export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSna
         buildingCollectionDayBefore={buildingCollectionTheDayBefore}
         buildingCollection={buildingCollection}
       />
+      {timelineSummaries ? (
+        <StyledMiniTimeline timelineSummaries={timelineSummaries} />
+      ) : null}
     </Figure>
   );
 };

@@ -1,5 +1,7 @@
 import * as turf from "@turf/turf";
 
+import { AddressStatus } from "./types";
+
 const hasAddress = ({ properties }: turf.Feature): boolean => {
   return Boolean(
     (properties?.["addr:street"] || properties?.["addr:place"]) &&
@@ -39,11 +41,6 @@ const isOfAuxiliaryType = ({ properties }: turf.Feature): boolean => {
     buildingTypesWithOptionalAddressSet.has(properties?.["building"] ?? ""),
   );
 };
-
-export type AddressStatus =
-  | "addressPresent"
-  | "addressMissing"
-  | "addressNotRequired";
 
 export const getAddressStatus = (feature: turf.Feature): AddressStatus => {
   if (hasAddress(feature)) {

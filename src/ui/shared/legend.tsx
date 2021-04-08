@@ -3,11 +3,13 @@ import * as React from "react";
 import styled from "styled-components";
 
 import {
-  AddressStatus,
   getAddressStatus,
   mapAddressStatusToColor,
 } from "../../shared/helpersForAddresses";
-import { FeatureCollectionWithBuildings } from "../../shared/types";
+import {
+  AddressStatus,
+  FeatureCollectionWithBuildings,
+} from "../../shared/types";
 
 export type AddressStatusOrAll = AddressStatus | "all";
 

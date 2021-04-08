@@ -7,3 +7,13 @@ export type FeatureCollectionWithBuildings = turf.FeatureCollection<
 export type FeatureCollectionWithMappingCake = turf.FeatureCollection<turf.Polygon>;
 
 export type TerritoryExtent = turf.Feature<turf.Polygon>;
+
+export type AddressStatus =
+  | "addressPresent"
+  | "addressMissing"
+  | "addressNotRequired";
+
+export interface TimelineSummary {
+  knownAt: string;
+  buildingCountByAddressStatus: Record<AddressStatus, number>;
+}

@@ -36,11 +36,11 @@ export const makeImageWithMapComparison: Command = async ({ logger }) => {
   for (let date = firstDate; date <= lastDate; date = shiftDate(date, 1)) {
     const imagePath = path.resolve(imageDirPath, `${date}.png`);
 
-    convertArgs.push(
-      imagePath,
-      "-delay",
-      date === firstDate ? "250" : date === lastDate ? "500" : "50",
-    );
+    convertArgs.push(imagePath, "-delay", date === firstDate ? "250" : "50");
+
+    if (date === lastDate) {
+      convertArgs.push("-delay", "500", imagePath);
+    }
 
     if (await fs.pathExists(imagePath)) {
       logger.log(chalk.gray(imagePath));

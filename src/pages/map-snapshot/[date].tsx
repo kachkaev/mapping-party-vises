@@ -2,9 +2,12 @@ import { GetServerSideProps, NextPage } from "next";
 import dynamic from "next/dynamic";
 import * as React from "react";
 
-import { getFeatureCollectionWithBuildings } from "../../shared/getFeatureCollectionWithBuildings";
-import { getFeatureCollectionWithMappingCake } from "../../shared/getFeatureCollectionWithMappingCake";
-import { getFeatureWithTerritoryExtent } from "../../shared/getFeatureWithTerritoryExtent";
+import {
+  obtainFeatureCollectionWithBuildings,
+  obtainFeatureCollectionWithMappingCake,
+  obtainFeatureWithTerritoryExtent,
+  obtainTimelineSummaries,
+} from "../../shared/data";
 import { isOnMappingParty, shiftDate } from "../../shared/helpersForDates";
 import { FigureWithMapSnapshotProps } from "../../ui/FigureWithMapSnapshot";
 import { PageMetadata } from "../../ui/PageMetadata";
@@ -33,15 +36,19 @@ export const getServerSideProps: GetServerSideProps<
 > = async ({ params: { date = "unknown" } = {} }) => {
   const props: MapSnapshotPageProps = {
     date,
-    buildingCollection: await getFeatureCollectionWithBuildings(date),
-    mappingCake: await getFeatureCollectionWithMappingCake(),
-    territoryExtent: await getFeatureWithTerritoryExtent(),
+    buildingCollection: await obtainFeatureCollectionWithBuildings(date),
+    mappingCake: await obtainFeatureCollectionWithMappingCake(),
+    territoryExtent: await obtainFeatureWithTerritoryExtent(),
   };
 
   if (isOnMappingParty(date)) {
-    props.buildingCollectionTheDayBefore = await getFeatureCollectionWithBuildings(
+    props.buildingCollectionTheDayBefore = await obtainFeatureCollectionWithBuildings(
       shiftDate(date, -1),
     );
+  }
+
+  if (isOnMappingParty(date) || isOnMappingParty(shiftDate(date, -1))) {
+    props.timelineSummaries = await obtainTimelineSummaries();
   }
 
   return {
