@@ -12,19 +12,11 @@ import {
   generateAddressSummary,
   getAddressStatusName,
   LegendRowEl,
+  LegendRowGapEl,
   orderedAddressStatuses,
   StatusNameEl,
   SymbolWrapperEl,
 } from "../shared/legend";
-
-const Pointer = styled.span`
-  display: inline-block;
-  opacity: 0.3;
-`;
-
-Pointer.defaultProps = {
-  children: "↑",
-};
 
 const DeltaPercent = styled(Delta)`
   width: 4.2em;
@@ -85,17 +77,10 @@ export const LegendForMapComparison: React.VoidFunctionComponent<LegendForMapCom
       <LegendRowEl>
         <SymbolWrapperEl />
         <StatusNameEl />
-        <CountEl>
-          <Pointer
-            style={{ transform: "rotate(-45deg)", marginRight: "1.5em" }}
-          />
-        </CountEl>
-        <CountEl>
-          <Pointer
-            style={{ transform: "rotate(45deg)", marginRight: ".7em" }}
-          />
-        </CountEl>
+        <CountEl>старт</CountEl>
+        <CountEl>финиш</CountEl>
       </LegendRowEl>
+      <LegendRowGapEl />
       {orderedAddressStatuses.map((addressStatus) => (
         <Row
           key={addressStatus}

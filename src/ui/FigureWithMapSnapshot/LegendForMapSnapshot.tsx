@@ -12,6 +12,7 @@ import {
   generateAddressSummary,
   getAddressStatusName,
   LegendRowEl,
+  LegendRowGapEl,
   orderedAddressStatuses,
   StatusNameEl,
   SymbolWrapperEl,
@@ -31,11 +32,6 @@ const MappingCake = styled.span`
   white-space: nowrap;
   overflow: visible;
   top: 0;
-`;
-
-const RowGap = styled.div`
-  display: table-row;
-  height: 0.5em;
 `;
 
 const MapCakeSymbol = styled.span`
@@ -107,7 +103,7 @@ export const LegendForMapSnapshot: React.VoidFunctionComponent<LegendForMapSnaps
           addressStatus={addressStatus}
         />
       ))}
-      <RowGap />
+      <LegendRowGapEl />
       <LegendRowEl>
         <SymbolWrapperEl>
           <MapCakeSymbol />

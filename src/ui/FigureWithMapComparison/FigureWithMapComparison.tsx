@@ -49,13 +49,16 @@ const StyledGeoMap = styled(GeoMap)`
 
 const GeoMapTitle = styled.div`
   font-size: 2em;
-  left: 30%;
+  /* outline: 1px solid red; */
 
   line-height: 1em;
   opacity: 40%;
-  top: 10px;
+  top: 15px;
   position: absolute;
-  text-align: left;
+  right: 0;
+  left: 0;
+  padding-left: 70px;
+  text-align: center;
   margin-bottom: -0.5em;
 `;
 
@@ -87,7 +90,7 @@ export const FigureWithMapComparison: React.VoidFunctionComponent<FigureWithMapC
       <GeoMaps>
         <GeoMapWrapper>
           <GeoMapTitle>
-            старт: {process.env.NEXT_PUBLIC_MAPPING_PARTY_DATE_START}
+            {process.env.NEXT_PUBLIC_MAPPING_PARTY_DATE_START}
           </GeoMapTitle>
           <StyledGeoMap
             buildingCollection={sampleBuildings(buildingCollectionStart)}
@@ -96,7 +99,7 @@ export const FigureWithMapComparison: React.VoidFunctionComponent<FigureWithMapC
         </GeoMapWrapper>
         <GeoMapWrapper>
           <GeoMapTitle>
-            финиш: {process.env.NEXT_PUBLIC_MAPPING_PARTY_DATE_FINISH}
+            {process.env.NEXT_PUBLIC_MAPPING_PARTY_DATE_FINISH}
           </GeoMapTitle>
           <StyledGeoMap
             buildingCollection={sampleBuildings(buildingCollectionFinish)}

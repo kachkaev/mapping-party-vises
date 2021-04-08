@@ -41,6 +41,11 @@ export const LegendRowEl = styled.div`
   display: table-row;
 `;
 
+export const LegendRowGapEl = styled.div`
+  display: table-row;
+  height: 0.5em;
+`;
+
 export const StatusNameEl = styled.div`
   display: table-cell;
 `;
