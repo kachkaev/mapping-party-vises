@@ -12,27 +12,29 @@ import {
   getStartDate,
   shiftDate,
 } from "../shared/helpersForDates";
-import { generatePageUrl, getImageDirPath } from "../shared/images";
+import { generatePageUrl, getImageDirPath, getLocale } from "../shared/images";
 
-export const makeImageWithMapComparison: Command = async ({ logger }) => {
+export const makeAnimation: Command = async ({ logger }) => {
   config();
-  const animationVersion = `v${format(new Date(), "y-MM-dd-HHmm")}`;
-  const snapshotVersion = `ru`;
-  const imageDirPath = path.resolve(
-    getImageDirPath(),
-    `map-snapshots.${snapshotVersion}`,
-  );
-  await fs.ensureDir(imageDirPath);
 
-  const browser = await puppeteer.launch();
-
+  const locale = getLocale();
+  const frameVersion = process.env.FRAME_VERSION ?? "v0";
+  const resultVersion = `v${format(new Date(), "y-MM-dd-HHmm")}`;
   const firstDate = shiftDate(getStartDate(), -1);
   const lastDate = shiftDate(getFinishDate(), 1);
 
+  const framesDirPath = path.resolve(
+    getImageDirPath(),
+    "animation-frames",
+    `${frameVersion}.${locale}`,
+  );
+  await fs.ensureDir(framesDirPath);
+
+  const browser = await puppeteer.launch();
   const convertArgs: string[] = [];
 
   for (let date = firstDate; date <= lastDate; date = shiftDate(date, 1)) {
-    const imagePath = path.resolve(imageDirPath, `${date}.png`);
+    const imagePath = path.resolve(framesDirPath, `${date}.png`);
 
     if (date === firstDate) {
       convertArgs.push(imagePath, "-delay", "200");
@@ -50,7 +52,7 @@ export const makeImageWithMapComparison: Command = async ({ logger }) => {
     }
 
     const page = await browser.newPage();
-    await page.goto(generatePageUrl(`map-snapshot/${date}`));
+    await page.goto(generatePageUrl(locale, `map-snapshot/${date}`));
     await page.setViewport({
       width: 100,
       height: 100,
@@ -69,14 +71,14 @@ export const makeImageWithMapComparison: Command = async ({ logger }) => {
   await browser.close();
 
   const animationFilePath = path.resolve(
-    imageDirPath,
-    `animation.${animationVersion}.gif`,
+    framesDirPath,
+    `animation.${resultVersion}.${locale}.gif`,
   );
   convertArgs.push("-loop", "0", "-layers", "Optimize", animationFilePath);
 
   await execa("convert", convertArgs, { stdio: "inherit" });
 
-  logger.log(`Готово! ${chalk.magenta(animationFilePath)}`);
+  logger.log(`Done! ${chalk.magenta(animationFilePath)}`);
 };
 
-autoStartCommandIfNeeded(makeImageWithMapComparison, __filename);
+autoStartCommandIfNeeded(makeAnimation, __filename);
