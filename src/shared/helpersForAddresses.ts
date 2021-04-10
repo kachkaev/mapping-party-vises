@@ -71,7 +71,8 @@ export const mapAddressStatusToColor = (
     // return "#8e0152";
   }
 
-  return "#a4a4a4";
+  return "#9D9DA8";
+  // return "#a4a4a4";
   // return "#7E92BC";
 };
 

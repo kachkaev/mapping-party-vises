@@ -87,11 +87,13 @@ const ColorEl = styled.div`
   vertical-align: baseline;
 `;
 
-export const AddressSymbol: React.VoidFunctionComponent<{
-  addressStatus: AddressStatusOrAll;
-}> = ({ addressStatus }) => {
+export const AddressSymbol: React.VoidFunctionComponent<
+  {
+    addressStatus: AddressStatusOrAll;
+  } & React.HTMLAttributes<HTMLDivElement>
+> = ({ addressStatus, ...rest }) => {
   return (
-    <SymbolWrapperEl>
+    <SymbolWrapperEl {...rest}>
       {addressStatus !== "all" ? (
         <ColorEl
           style={{

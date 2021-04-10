@@ -1,41 +1,72 @@
+import { AxisBottom, AxisLeft } from "@visx/axis";
 import { Grid } from "@visx/grid";
 import { scaleLinear, scaleTime } from "@visx/scale";
 import { LinePath } from "@visx/shape";
 import { curveLinear } from "d3-shape";
-import { parseISO } from "date-fns";
+import { differenceInCalendarDays, getDay, parseISO } from "date-fns";
+import { DateTime } from "luxon";
 import * as React from "react";
 import styled from "styled-components";
 
 import {
   addressStatuses,
+  buildingTypesWithOptionalAddress,
   mapAddressStatusToColor,
 } from "../../shared/helpersForAddresses";
 import {
   getFinishDate,
   getStartDate,
+  getTimeZone,
   parseDateTime,
   shiftDate,
 } from "../../shared/helpersForDates";
 import { TimelineSummary } from "../../shared/types";
 import { Figure } from "../shared/Figure";
+import { AddressSymbol, getAddressStatusName } from "../shared/legend";
 
 const AnnotationColumn = styled.div`
-  font-size: 3.3em;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.3em;
+  width: 15em;
   position: absolute;
-  text-align: left;
-  bottom: 105px;
+  top: 70px;
+  left: 0;
 `;
 
-const Chart = styled.svg`
-  font-size: 3.3em;
-  font-variant-numeric: tabular-nums;
-  line-height: 1.3em;
-  position: absolute;
-  text-align: left;
-  bottom: 105px;
+const AnnotationSection = styled.div`
+  & + & {
+    padding-top: 1.15em;
+  }
 `;
+
+const BuildingType = styled.span`
+  display: block;
+  margin-left: 1em;
+`;
+
+const StyledAddressSymbol = styled(AddressSymbol)`
+  display: inline-block !important;
+`;
+
+const ChartSvg = styled.svg`
+  position: absolute;
+  right: 0;
+  top: 70px;
+`;
+
+const gridColor = "#e5e5e5";
+const axisStrokeColor = "#aaa";
+
+const buildingTypesToDisplay = buildingTypesWithOptionalAddress;
+// .map((type) => {
+//   if (type === "garage") {
+//     return "garage(s)";
+//   }
+//   if (type === "garages") {
+//     return null;
+//   }
+
+//   return type;
+// })
+// .filter((type) => type);
 
 export interface FigureWithTimelineProps {
   timelineSummaries: TimelineSummary[];
@@ -44,54 +75,112 @@ export interface FigureWithTimelineProps {
 export const FigureWithTimeline: React.VoidFunctionComponent<FigureWithTimelineProps> = ({
   timelineSummaries,
 }) => {
-  const chartWidth = 500;
-  const chartHeight = 400;
+  const timeStart = parseDateTime(getStartDate());
+  const timeEnd = parseDateTime(shiftDate(getFinishDate(), 1));
+
+  const startsOfDay: Date[] = [];
+  const startsOfWeek: Date[] = [];
+
+  // Can’t use addDays() because Date does not support timezones
+  let time = timeStart;
+  let i = 0;
+  while (time <= timeEnd) {
+    startsOfDay.push(time);
+    if (getDay(time) === 0) {
+      startsOfWeek.push(time);
+    }
+    time = parseDateTime(shiftDate(getStartDate(), i));
+    i += 1;
+  }
+
+  const yRangeInThousands = 30;
+  const xRangeInDays = differenceInCalendarDays(timeEnd, timeStart);
+  const chartGridWidth = xRangeInDays * 15;
+  const chartGridHeight = yRangeInThousands * 15;
   const chartMargin = {
     left: 40,
-    right: 0,
-    top: 0,
-    bottom: 40,
+    right: 1,
+    top: 7,
+    bottom: 50,
   };
-  const chartOuterWidth = chartWidth + chartMargin.left + chartMargin.right;
-  const chartOuterHeight = chartHeight + chartMargin.top + chartMargin.bottom;
+  const chartSvgWidth = chartGridWidth + chartMargin.left + chartMargin.right;
+  const chartSvgHeight = chartGridHeight + chartMargin.top + chartMargin.bottom;
 
   const xScale = scaleTime<number>({
-    domain: [
-      parseDateTime(getStartDate()),
-      parseDateTime(shiftDate(getFinishDate(), 1)),
-    ],
-    range: [0, chartWidth],
+    domain: [timeStart, timeEnd],
+    range: [0, chartGridWidth],
   });
 
   const yScale = scaleLinear<number>({
     domain: [0, 30000],
-    range: [chartHeight, 0],
+    range: [chartGridHeight, 0],
   });
 
   return (
-    <Figure width={800} height={600}>
-      <AnnotationColumn>hello {timelineSummaries.length}</AnnotationColumn>
-      <Chart width={chartOuterWidth} height={chartOuterHeight}>
+    <Figure width={850} height={600}>
+      <AnnotationColumn>
+        <AnnotationSection>
+          <div>Количество зданий</div>
+          {addressStatuses.map((addressStatus) => (
+            <div key={addressStatus}>
+              <StyledAddressSymbol addressStatus={addressStatus} />
+              {getAddressStatusName(addressStatus)}{" "}
+            </div>
+          ))}
+        </AnnotationSection>
+        <AnnotationSection>
+          В первую категорию попали здания, у&nbsp;которых указаны и&nbsp;улица,
+          и&nbsp;номер дома.
+        </AnnotationSection>
+        <AnnotationSection>
+          Адрес условно считается необязательным у зданий с&nbsp;тегом abandoned
+          или
+          <br />
+          с&nbsp;тегом building =
+          {buildingTypesToDisplay.map((type) => (
+            <BuildingType key={type}>{type}</BuildingType>
+          ))}
+        </AnnotationSection>
+      </AnnotationColumn>
+      <ChartSvg width={chartSvgWidth} height={chartSvgHeight}>
         <defs>
           <clipPath id="grid">
-            <rect x={0} y={0} width={chartWidth} height={chartWidth} />
+            <rect x={0} y={0} width={chartGridWidth} height={chartGridWidth} />
           </clipPath>
         </defs>
         <g transform={`translate(${chartMargin.left},${chartMargin.top})`}>
           <Grid
             xScale={xScale}
             yScale={yScale}
-            width={chartWidth}
-            height={chartHeight}
-            numTicksRows={10}
-            numTicksColumns={20}
+            width={chartGridWidth}
+            height={chartGridHeight}
+            numTicksRows={yRangeInThousands}
+            columnTickValues={startsOfDay}
             rowLineStyle={{
-              stroke: "#ccc",
-              strokeDasharray: "1 3",
+              stroke: gridColor,
+              strokeDasharray: "1 2",
+              strokeDashoffset: 0.5,
             }}
             columnLineStyle={{
-              stroke: "#ccc",
-              strokeDasharray: "1 3",
+              stroke: gridColor,
+              strokeDasharray: "1 2",
+              strokeDashoffset: 0.5,
+            }}
+          />
+          <Grid
+            xScale={xScale}
+            yScale={yScale}
+            width={chartGridWidth}
+            height={chartGridHeight}
+            numTicksRows={yRangeInThousands / 5}
+            columnTickValues={[...startsOfWeek, timeEnd]}
+            rowLineStyle={{
+              stroke: gridColor,
+              strokeDashoffset: 0.5,
+            }}
+            columnLineStyle={{
+              stroke: gridColor,
+              strokeDashoffset: 0.5,
             }}
           />
           {[...addressStatuses].reverse().map((addressStatus) => (
@@ -105,11 +194,51 @@ export const FigureWithTimeline: React.VoidFunctionComponent<FigureWithTimelineP
               stroke={mapAddressStatusToColor(addressStatus)}
               strokeWidth={2}
               strokeOpacity={1}
+              strokeLinejoin="round"
               shapeRendering="geometricPrecision"
             />
           ))}
+          <AxisLeft
+            stroke={axisStrokeColor}
+            tickStroke={axisStrokeColor}
+            scale={yScale}
+            numTicks={yRangeInThousands / 5}
+            tickLength={3}
+            tickFormat={(value) =>
+              value.valueOf() === 0
+                ? "0"
+                : `${Math.floor(value.valueOf() / 1000)}K`
+            }
+            tickLabelProps={() => ({
+              transform: "translate(-4 0)",
+              textAnchor: "end",
+              verticalAnchor: "middle",
+            })}
+          />
+          <AxisBottom
+            stroke={axisStrokeColor}
+            tickStroke={axisStrokeColor}
+            top={chartGridHeight}
+            scale={xScale}
+            tickValues={startsOfWeek}
+            tickLength={3}
+            tickFormat={(value) =>
+              DateTime.fromMillis(value.valueOf())
+                .setZone(getTimeZone())
+                .toFormat("dd.MM")
+            }
+            tickLabelProps={() => ({
+              transform: "translate(2 2)",
+              textAnchor: "start",
+            })}
+            label="февраль–март 2021 года, часовой пояс MSK (UTC+3)"
+            labelProps={{
+              textAnchor: "middle",
+              y: 42,
+            }}
+          />
         </g>
-      </Chart>
+      </ChartSvg>
     </Figure>
   );
 };

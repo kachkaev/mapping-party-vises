@@ -43,7 +43,7 @@ export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
 }) => {
   const [ref, { width, height }] = useMeasure<HTMLDivElement>();
 
-  const territoryExtentStrokeWidth = 3 * scaleFactor;
+  const territoryExtentStrokeWidth = 4 * scaleFactor;
   const mapPaddingX = padding + territoryExtentStrokeWidth / 2;
   const mapPaddingY = padding + territoryExtentStrokeWidth / 2;
 
@@ -82,10 +82,10 @@ export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
             fitExtent={fitExtent}
             featureProps={() => ({
               fill: "none",
-              stroke: "#232323",
+              stroke: "#000",
               strokeWidth: territoryExtentStrokeWidth,
             })}
-            opacity={0.3}
+            opacity={0.25}
             features={[territoryExtent]}
           />
           {mappingCake ? (
