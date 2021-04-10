@@ -1,5 +1,6 @@
 import { format, parse } from "date-fns";
-import { ru } from "date-fns/locale";
+import { enGB, ru } from "date-fns/locale";
+import { useRouter } from "next/dist/client/router";
 import * as React from "react";
 import styled from "styled-components";
 
@@ -74,11 +75,14 @@ export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSna
   timelineSummaries,
   date,
 }) => {
+  const { locale } = useRouter();
   const dayOfWeek = React.useMemo(() => {
     const parsedDate = parse(date, "yyyy-MM-dd", new Date());
 
-    return format(parsedDate, "eeeeee", { locale: ru });
-  }, [date]);
+    return locale === "ru"
+      ? format(parsedDate, "eeeeee", { locale: ru })
+      : format(parsedDate, "eee", { locale: enGB });
+  }, [date, locale]);
 
   return (
     <Figure width={size} height={size}>

@@ -20,7 +20,7 @@ import { TimelineSummary } from "../../shared/types";
 const Wrapper = styled.div``;
 
 const Svg = styled.svg`
-  border: 1px solid #00000020;
+  border: 1px solid #e5e5e5;
   border-top: none;
 `;
 
@@ -44,7 +44,7 @@ export const MiniTimeline: React.VoidFunctionComponent<MiniTimelineProps> = ({
   ...rest
 }) => {
   const width = 180;
-  const height = 100;
+  const height = (180 / 4) * 3 - 10;
 
   const xScale = scaleTime<number>({
     domain: [

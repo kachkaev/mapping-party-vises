@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { useRouter } from "next/dist/client/router";
 import * as React from "react";
 import styled from "styled-components";
 
@@ -15,9 +16,10 @@ export type AddressStatusOrAll = AddressStatus | "all";
 
 export type AddressSummary = Record<AddressStatusOrAll, number>;
 
-const f = Intl.NumberFormat("ru");
-const formatNumber = (n: number) => {
-  return f.format(n).replace(/\u00A0/g, "\u202F");
+const fRu = Intl.NumberFormat("ru");
+const fEn = Intl.NumberFormat("en");
+const formatNumber = (n: number, locale: string | undefined) => {
+  return (locale === "ru" ? fRu : fEn).format(n).replace(/\u00A0/g, "\u202F");
 };
 
 export const generateAddressSummary = (
@@ -66,17 +68,20 @@ export const SymbolWrapperEl = styled.div`
   width: 1.3em;
 `;
 
-export const getAddressStatusName = (addressStatus?: AddressStatusOrAll) => {
+export const getAddressStatusName = (
+  addressStatus: AddressStatusOrAll,
+  locale: string | undefined,
+) => {
   switch (addressStatus) {
     case "addressPresent":
-      return "адрес есть";
+      return locale === "ru" ? "адрес есть" : "address is present";
     case "addressMissing":
-      return "адреса не хватает";
+      return locale === "ru" ? "адреса не хватает" : "address is missing";
     case "addressNotRequired":
-      return "адрес необязателен";
+      return locale === "ru" ? "адрес необязателен" : "address is optional";
   }
 
-  return "все здания";
+  return locale === "ru" ? "все здания" : "all buildings";
 };
 
 const ColorEl = styled.div`
@@ -108,21 +113,25 @@ export const AddressSymbol: React.VoidFunctionComponent<
 export const Count: React.VoidFunctionComponent<
   { value: number } & React.HTMLAttributes<HTMLDivElement>
 > = ({ value, ...rest }) => {
-  return <CountEl {...rest}>{formatNumber(Math.abs(value))}</CountEl>;
+  const { locale } = useRouter();
+
+  return <CountEl {...rest}>{formatNumber(Math.abs(value), locale)}</CountEl>;
 };
 
 export const DeltaEl = styled(CountEl)`
-  padding-left: 0.4em;
+  padding-left: 0.55em;
   opacity: 0.5;
 `;
 
 export const Delta: React.VoidFunctionComponent<
   { value: number } & React.HTMLAttributes<HTMLDivElement>
 > = ({ value, ...rest }) => {
+  const { locale } = useRouter();
+
   return (
     <DeltaEl {...rest}>
       {value > 0 ? "+" : value < 0 ? "−" : ""}
-      {formatNumber(Math.abs(value))}
+      {formatNumber(Math.abs(value), locale)}
     </DeltaEl>
   );
 };

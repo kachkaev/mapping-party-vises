@@ -1,3 +1,4 @@
+import { useRouter } from "next/dist/client/router";
 import * as React from "react";
 import styled from "styled-components";
 
@@ -19,7 +20,7 @@ import {
 } from "../shared/legend";
 
 const DeltaPercent = styled(Delta)`
-  width: 4.2em;
+  width: 4em;
 
   :after {
     content: "%";
@@ -31,6 +32,7 @@ const Row: React.VoidFunctionComponent<{
   finishSummary: AddressSummary;
   addressStatus: AddressStatusOrAll;
 }> = ({ startSummary, finishSummary, addressStatus }) => {
+  const { locale } = useRouter();
   const start = startSummary[addressStatus];
   const finish = finishSummary[addressStatus];
   const diff = finish - start;
@@ -38,7 +40,7 @@ const Row: React.VoidFunctionComponent<{
   return (
     <LegendRowEl>
       <AddressSymbol addressStatus={addressStatus} />
-      <StatusNameEl>{getAddressStatusName(addressStatus)}</StatusNameEl>
+      <StatusNameEl>{getAddressStatusName(addressStatus, locale)}</StatusNameEl>
       <Count value={start} />
       <Count value={finish} />
       <Delta value={diff} />
@@ -63,6 +65,7 @@ export const LegendForMapComparison: React.VoidFunctionComponent<LegendForMapCom
   buildingCollectionFinish,
   ...rest
 }) => {
+  const { locale } = useRouter();
   const startSummary = React.useMemo(
     () => generateAddressSummary(buildingCollectionStart),
     [buildingCollectionStart],
@@ -77,8 +80,8 @@ export const LegendForMapComparison: React.VoidFunctionComponent<LegendForMapCom
       <LegendRowEl>
         <SymbolWrapperEl />
         <StatusNameEl />
-        <CountEl>старт</CountEl>
-        <CountEl>финиш</CountEl>
+        <CountEl>{locale === "ru" ? "старт" : "start"}</CountEl>
+        <CountEl>{locale === "ru" ? "финиш" : "finish"}</CountEl>
       </LegendRowEl>
       <LegendRowGapEl />
       {orderedAddressStatuses.map((addressStatus) => (

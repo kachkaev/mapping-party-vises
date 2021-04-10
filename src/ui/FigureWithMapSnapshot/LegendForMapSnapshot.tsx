@@ -1,3 +1,4 @@
+import { useRouter } from "next/dist/client/router";
 import * as React from "react";
 import styled from "styled-components";
 
@@ -48,6 +49,7 @@ const LegendRow: React.VoidFunctionComponent<{
   summary: AddressSummary;
   addressStatus: AddressStatusOrAll;
 }> = ({ summaryDayBefore, summary, addressStatus }) => {
+  const { locale } = useRouter();
   const value = summary[addressStatus];
   const delta = summaryDayBefore
     ? value - summaryDayBefore[addressStatus]
@@ -57,7 +59,7 @@ const LegendRow: React.VoidFunctionComponent<{
     <LegendRowEl>
       <AddressSymbol addressStatus={addressStatus} />
       <StyledStatusName>
-        {getAddressStatusName(addressStatus)}{" "}
+        {getAddressStatusName(addressStatus, locale)}{" "}
       </StyledStatusName>
       <Count value={value} />
       {typeof delta === "number" ? <Delta value={delta} /> : null}
@@ -81,6 +83,8 @@ export const LegendForMapSnapshot: React.VoidFunctionComponent<LegendForMapSnaps
   buildingCollection,
   ...rest
 }) => {
+  const { locale } = useRouter();
+
   const summaryDayBefore = React.useMemo(
     () =>
       buildingCollectionDayBefore
@@ -110,7 +114,7 @@ export const LegendForMapSnapshot: React.VoidFunctionComponent<LegendForMapSnaps
         </SymbolWrapperEl>
         <StyledStatusName>
           <MappingCake>
-            куски картопирога:{" "}
+            {locale === "ru" ? <>куски картопирога: </> : <>mapping cake: </>}
             <StyledExternalLink href="https://mapcraft.nanodesu.ru/pie/947" />
           </MappingCake>
         </StyledStatusName>

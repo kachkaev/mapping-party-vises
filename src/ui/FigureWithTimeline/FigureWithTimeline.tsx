@@ -5,6 +5,7 @@ import { LinePath } from "@visx/shape";
 import { curveLinear } from "d3-shape";
 import { differenceInCalendarDays, getDay, parseISO } from "date-fns";
 import { DateTime } from "luxon";
+import { useRouter } from "next/dist/client/router";
 import * as React from "react";
 import styled from "styled-components";
 
@@ -75,6 +76,7 @@ export interface FigureWithTimelineProps {
 export const FigureWithTimeline: React.VoidFunctionComponent<FigureWithTimelineProps> = ({
   timelineSummaries,
 }) => {
+  const { locale } = useRouter();
   const timeStart = parseDateTime(getStartDate());
   const timeEnd = parseDateTime(shiftDate(getFinishDate(), 1));
 
@@ -120,23 +122,43 @@ export const FigureWithTimeline: React.VoidFunctionComponent<FigureWithTimelineP
     <Figure width={850} height={600}>
       <AnnotationColumn>
         <AnnotationSection>
-          <div>Количество зданий</div>
+          <div>
+            {locale === "ru" ? "Количество зданий" : "Number of buildings"}
+          </div>
           {addressStatuses.map((addressStatus) => (
             <div key={addressStatus}>
               <StyledAddressSymbol addressStatus={addressStatus} />
-              {getAddressStatusName(addressStatus)}{" "}
+              {getAddressStatusName(addressStatus, locale)}{" "}
             </div>
           ))}
         </AnnotationSection>
         <AnnotationSection>
-          В первую категорию попали здания, у&nbsp;которых указаны и&nbsp;улица,
-          и&nbsp;номер дома.
+          {locale === "ru" ? (
+            <>
+              В первую категорию попали здания, у&nbsp;которых указаны
+              и&nbsp;улица, и&nbsp;номер дома.
+            </>
+          ) : (
+            <>
+              First category includes buildings&nbsp;with both street
+              name&nbsp;and house number.
+            </>
+          )}
         </AnnotationSection>
         <AnnotationSection>
-          Адрес условно считается необязательным у зданий с&nbsp;тегом abandoned
-          или
-          <br />
-          с&nbsp;тегом building =
+          {locale === "ru" ? (
+            <>
+              Адрес считается условно необязательным у зданий с&nbsp;тегом
+              abandoned или
+              <br />
+              с&nbsp;тегом building =
+            </>
+          ) : (
+            <>
+              The address is considered to&nbsp;be&nbsp;optional for abandoned
+              buildings and those tagged as building =
+            </>
+          )}
           {buildingTypesToDisplay.map((type) => (
             <BuildingType key={type}>{type}</BuildingType>
           ))}
@@ -231,7 +253,11 @@ export const FigureWithTimeline: React.VoidFunctionComponent<FigureWithTimelineP
               transform: "translate(2 2)",
               textAnchor: "start",
             })}
-            label="февраль–март 2021 года, часовой пояс MSK (UTC+3)"
+            label={
+              locale === "ru"
+                ? "февраль – март 2021 года, часовой пояс MSK (UTC+3)"
+                : "February – March 2021, Moscow time (UTC+3)"
+            }
             labelProps={{
               textAnchor: "middle",
               y: 42,

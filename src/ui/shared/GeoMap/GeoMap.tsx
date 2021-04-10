@@ -84,6 +84,7 @@ export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
               fill: "none",
               stroke: "#000",
               strokeWidth: territoryExtentStrokeWidth,
+              strokeLinejoin: "round",
             })}
             opacity={0.25}
             features={[territoryExtent]}
