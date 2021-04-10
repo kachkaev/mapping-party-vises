@@ -26,11 +26,16 @@ const StyledSvg = styled.svg`
 `;
 
 export interface GeoMapProps extends React.HTMLAttributes<HTMLDivElement> {
-  buildingCollection: FeatureCollectionWithBuildings;
+  buildingCollection?: FeatureCollectionWithBuildings;
   mappingCake?: FeatureCollectionWithMappingCake;
   territoryExtent: TerritoryExtent;
   scaleFactor?: number;
   padding?: number;
+  children?: (payload: {
+    width: number;
+    height: number;
+    fitExtent: FitExtent;
+  }) => React.ReactNode;
 }
 
 export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
@@ -39,6 +44,7 @@ export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
   territoryExtent,
   scaleFactor = 0.5,
   padding = 0,
+  children,
   ...rest
 }) => {
   const [ref, { width, height }] = useMeasure<HTMLDivElement>();
@@ -85,6 +91,7 @@ export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
               stroke: "#000",
               strokeWidth: territoryExtentStrokeWidth,
               strokeLinejoin: "round",
+              strokeLinecap: "round",
             })}
             opacity={0.25}
             features={[territoryExtent]}
@@ -98,18 +105,23 @@ export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
                 fill: "none",
                 stroke: "#4d75c4",
                 strokeWidth: 2 * scaleFactor,
+                strokeLinejoin: "round",
+                strokeLinecap: "round",
               })}
               opacity={0.2}
               features={mappingCake.features}
             />
           ) : null}
-          <GeoMapLayer
-            width={width}
-            height={height}
-            fitExtent={fitExtent}
-            featureProps={buildingFeatureProps}
-            features={buildingCollection.features}
-          />
+          {buildingCollection ? (
+            <GeoMapLayer
+              width={width}
+              height={height}
+              fitExtent={fitExtent}
+              featureProps={buildingFeatureProps}
+              features={buildingCollection.features}
+            />
+          ) : null}
+          {children?.({ width, height, fitExtent })}
         </StyledSvg>
       ) : null}
     </Wrapper>

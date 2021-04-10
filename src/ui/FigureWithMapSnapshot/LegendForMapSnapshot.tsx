@@ -4,7 +4,6 @@ import * as React from "react";
 import styled from "styled-components";
 
 import { FeatureCollectionWithBuildings } from "../../shared/types";
-import { ExternalLink } from "../shared/ExternalLink";
 import {
   AddressStatusOrAll,
   AddressSummary,
@@ -15,35 +14,15 @@ import {
   generateAddressSummary,
   getAddressStatusName,
   LegendRowEl,
+  LegendRowForMappingCake,
   LegendRowGapEl,
   orderedAddressStatuses,
   StatusNameEl,
-  SymbolWrapperEl,
 } from "../shared/legend";
-
-const StyledExternalLink = styled(ExternalLink)`
-  color: inherit;
-`;
 
 const StyledStatusName = styled(StatusNameEl)`
   width: 10.8em;
   position: relative;
-`;
-
-const MappingCake = styled.span`
-  position: absolute;
-  white-space: nowrap;
-  overflow: visible;
-  top: 0;
-`;
-
-const MapCakeSymbol = styled.span`
-  display: inline-block;
-  vertical-align: middle;
-  width: 0.6em;
-  height: 2px;
-  background: #4d75c4;
-  opacity: 0.3;
 `;
 
 const LegendRow: React.VoidFunctionComponent<{
@@ -93,8 +72,6 @@ export const LegendForMapSnapshot: React.VoidFunctionComponent<LegendForMapSnaps
   unrelatedToMappingParty,
   ...rest
 }) => {
-  const { locale } = useRouter();
-
   const summaryDayBefore = React.useMemo(
     () =>
       buildingCollectionDayBefore
@@ -120,21 +97,7 @@ export const LegendForMapSnapshot: React.VoidFunctionComponent<LegendForMapSnaps
       {unrelatedToMappingParty ? null : (
         <>
           <LegendRowGapEl />
-          <LegendRowEl>
-            <SymbolWrapperEl>
-              <MapCakeSymbol />
-            </SymbolWrapperEl>
-            <StyledStatusName>
-              <MappingCake>
-                {locale === "ru" ? (
-                  <>куски картопирога: </>
-                ) : (
-                  <>mapping cake: </>
-                )}
-                <StyledExternalLink href="https://mapcraft.nanodesu.ru/pie/947" />
-              </MappingCake>
-            </StyledStatusName>
-          </LegendRowEl>
+          <LegendRowForMappingCake />
         </>
       )}
     </Wrapper>

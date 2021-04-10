@@ -11,6 +11,7 @@ import {
   AddressStatus,
   FeatureCollectionWithBuildings,
 } from "../../shared/types";
+import { ExternalLink } from "./ExternalLink";
 
 export type AddressStatusOrAll = AddressStatus | "all";
 
@@ -51,6 +52,7 @@ export const LegendRowGapEl = styled.div`
 `;
 
 export const StatusNameEl = styled.div`
+  position: relative;
   display: table-cell;
 `;
 
@@ -133,5 +135,43 @@ export const Delta: React.VoidFunctionComponent<
       {value > 0 ? "+" : value < 0 ? "−" : ""}
       {formatNumber(Math.abs(value), locale)}
     </DeltaEl>
+  );
+};
+
+const StyledExternalLink = styled(ExternalLink)`
+  color: inherit;
+`;
+
+const MappingCake = styled.span`
+  position: absolute;
+  white-space: nowrap;
+  overflow: visible;
+  top: 0;
+`;
+
+const MapCakeSymbol = styled.span`
+  display: inline-block;
+  vertical-align: middle;
+  width: 0.6em;
+  height: 2px;
+  background: #4d75c4;
+  opacity: 0.3;
+`;
+
+export const LegendRowForMappingCake: React.VoidFunctionComponent = () => {
+  const { locale } = useRouter();
+
+  return (
+    <LegendRowEl>
+      <SymbolWrapperEl>
+        <MapCakeSymbol />
+      </SymbolWrapperEl>
+      <StatusNameEl>
+        <MappingCake>
+          {locale === "ru" ? <>куски картопирога: </> : <>mapping cake: </>}
+          <StyledExternalLink href="https://mapcraft.nanodesu.ru/pie/947" />
+        </MappingCake>
+      </StatusNameEl>
+    </LegendRowEl>
   );
 };

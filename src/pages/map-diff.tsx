@@ -4,6 +4,7 @@ import * as React from "react";
 
 import {
   obtainFeatureCollectionWithBuildings,
+  obtainFeatureCollectionWithMappingCake,
   obtainFeatureWithTerritoryExtent,
 } from "../shared/data";
 import {
@@ -11,28 +12,26 @@ import {
   getStartDate,
   shiftDate,
 } from "../shared/helpersForDates";
-import { FigureWithMapComparisonProps } from "../ui/FigureWithMapComparison";
+import { FigureWithMapDiffProps } from "../ui/FigureWithMapDiff";
 import { PageMetadata } from "../ui/PageMetadata";
 
-const PageContentsForMapComparison = dynamic<FigureWithMapComparisonProps>(
-  import("../ui/FigureWithMapComparison").then(
-    (m) => m.FigureWithMapComparison,
-  ),
+const PageContentsForMapDiff = dynamic<FigureWithMapDiffProps>(
+  import("../ui/FigureWithMapDiff").then((m) => m.FigureWithMapDiff),
   { ssr: false },
 );
 
-type MapComparisonPageProps = FigureWithMapComparisonProps;
+type MapDiffPageProps = FigureWithMapDiffProps;
 
-const MapComparisonPage: NextPage<MapComparisonPageProps> = (props) => {
+const MapDiffPage: NextPage<MapDiffPageProps> = (props) => {
   return (
     <>
       <PageMetadata />
-      <PageContentsForMapComparison {...props} />
+      <PageContentsForMapDiff {...props} />
     </>
   );
 };
 
-export const getStaticProps: GetStaticProps<MapComparisonPageProps> = async () => {
+export const getStaticProps: GetStaticProps<MapDiffPageProps> = async () => {
   return {
     props: {
       buildingCollectionStart: await obtainFeatureCollectionWithBuildings(
@@ -42,8 +41,9 @@ export const getStaticProps: GetStaticProps<MapComparisonPageProps> = async () =
         getFinishDate(),
       ),
       territoryExtent: await obtainFeatureWithTerritoryExtent(),
+      mappingCake: await obtainFeatureCollectionWithMappingCake(),
     },
   };
 };
 
-export default MapComparisonPage;
+export default MapDiffPage;
