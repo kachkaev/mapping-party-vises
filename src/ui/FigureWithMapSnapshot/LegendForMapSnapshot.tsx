@@ -1,3 +1,4 @@
+import _ from "lodash";
 import { useRouter } from "next/dist/client/router";
 import * as React from "react";
 import styled from "styled-components";
@@ -10,6 +11,7 @@ import {
   AddressSymbol,
   Count,
   Delta,
+  DeltaEl,
   generateAddressSummary,
   getAddressStatusName,
   LegendRowEl,
@@ -55,6 +57,8 @@ const LegendRow: React.VoidFunctionComponent<{
     ? value - summaryDayBefore[addressStatus]
     : undefined;
 
+  const total = _.sum(Object.values(summary)) - summary.all;
+
   return (
     <LegendRowEl>
       <AddressSymbol addressStatus={addressStatus} />
@@ -62,7 +66,11 @@ const LegendRow: React.VoidFunctionComponent<{
         {getAddressStatusName(addressStatus, locale)}{" "}
       </StyledStatusName>
       <Count value={value} />
-      {typeof delta === "number" ? <Delta value={delta} /> : null}
+      {typeof delta === "number" ? (
+        <Delta value={delta} />
+      ) : addressStatus !== "all" ? (
+        <DeltaEl>{Math.round((value / total) * 100)}%</DeltaEl>
+      ) : null}
     </LegendRowEl>
   );
 };
@@ -76,11 +84,13 @@ export interface LegendForMapSnapshotProps
   children?: React.ReactNode;
   buildingCollectionDayBefore?: FeatureCollectionWithBuildings;
   buildingCollection: FeatureCollectionWithBuildings;
+  unrelatedToMappingParty?: boolean;
 }
 
 export const LegendForMapSnapshot: React.VoidFunctionComponent<LegendForMapSnapshotProps> = ({
   buildingCollectionDayBefore,
   buildingCollection,
+  unrelatedToMappingParty,
   ...rest
 }) => {
   const { locale } = useRouter();
@@ -107,18 +117,26 @@ export const LegendForMapSnapshot: React.VoidFunctionComponent<LegendForMapSnaps
           addressStatus={addressStatus}
         />
       ))}
-      <LegendRowGapEl />
-      <LegendRowEl>
-        <SymbolWrapperEl>
-          <MapCakeSymbol />
-        </SymbolWrapperEl>
-        <StyledStatusName>
-          <MappingCake>
-            {locale === "ru" ? <>куски картопирога: </> : <>mapping cake: </>}
-            <StyledExternalLink href="https://mapcraft.nanodesu.ru/pie/947" />
-          </MappingCake>
-        </StyledStatusName>
-      </LegendRowEl>
+      {unrelatedToMappingParty ? null : (
+        <>
+          <LegendRowGapEl />
+          <LegendRowEl>
+            <SymbolWrapperEl>
+              <MapCakeSymbol />
+            </SymbolWrapperEl>
+            <StyledStatusName>
+              <MappingCake>
+                {locale === "ru" ? (
+                  <>куски картопирога: </>
+                ) : (
+                  <>mapping cake: </>
+                )}
+                <StyledExternalLink href="https://mapcraft.nanodesu.ru/pie/947" />
+              </MappingCake>
+            </StyledStatusName>
+          </LegendRowEl>
+        </>
+      )}
     </Wrapper>
   );
 };

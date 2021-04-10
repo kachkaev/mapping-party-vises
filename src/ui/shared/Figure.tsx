@@ -39,12 +39,14 @@ export interface FigureProps {
   children?: React.ReactNode;
   height: number;
   width: number;
+  unrelatedToMappingParty?: boolean;
 }
 
 export const Figure: React.VoidFunctionComponent<FigureProps> = ({
   children,
   width,
   height,
+  unrelatedToMappingParty,
 }) => {
   const gap = "   ";
 
@@ -56,11 +58,19 @@ export const Figure: React.VoidFunctionComponent<FigureProps> = ({
         {locale === "ru" ? (
           <>
             <Title>
-              Онлайн-картовечеринка ОСМ в Пензе, Заречном и Спутнике
+              {unrelatedToMappingParty
+                ? "Здания OpenStreetMap в Пензе, Заречном и Засечном"
+                : "Онлайн-картовечеринка OSM в Пензе, Заречном и Засечном"}
             </Title>
             <Subtitle>
               <span style={{ opacity: 0.5 }}>
-                <StyledExternalLink href="https://wiki.osm.org/wiki/RU:Пенза/встречи" />
+                <StyledExternalLink
+                  href={
+                    unrelatedToMappingParty
+                      ? "https://wiki.osm.org/wiki/RU:Пенза"
+                      : "https://wiki.osm.org/wiki/RU:Пенза/встречи"
+                  }
+                />
                 {gap}
                 данные: © участники{" "}
                 <StyledExternalLink href="https://osm.org" />,{" "}
@@ -75,11 +85,19 @@ export const Figure: React.VoidFunctionComponent<FigureProps> = ({
         ) : (
           <>
             <Title>
-              Online OSM mapping party in Penza (Russia) on building coverage
+              {unrelatedToMappingParty
+                ? "OpenStreetMap building coverage in Penza, Russia"
+                : "Online OSM mapping party in Penza, Russia on building coverage"}
             </Title>
             <Subtitle>
               <span style={{ opacity: 0.5 }}>
-                <StyledExternalLink href="https://osmcal.org/event/583" />
+                <StyledExternalLink
+                  href={
+                    unrelatedToMappingParty
+                      ? "https://wiki.osm.org/wiki/Penza"
+                      : "https://osmcal.org/event/583"
+                  }
+                />
                 {gap}
                 data: © <StyledExternalLink href="https://osm.org" />{" "}
                 contributors,{" "}

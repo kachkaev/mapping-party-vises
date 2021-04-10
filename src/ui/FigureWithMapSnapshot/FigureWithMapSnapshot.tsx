@@ -4,6 +4,7 @@ import { useRouter } from "next/dist/client/router";
 import * as React from "react";
 import styled from "styled-components";
 
+import { getFinishDate, shiftDate } from "../../shared/helpersForDates";
 import {
   FeatureCollectionWithBuildings,
   FeatureCollectionWithMappingCake,
@@ -16,6 +17,7 @@ import { LegendForMapSnapshot } from "./LegendForMapSnapshot";
 import { MiniTimeline } from "./MiniTimeline";
 
 const size = 750;
+const verticalSizeReduction = 16 + 6;
 
 const GeoMapTitle = styled.div`
   font-size: 3.3em;
@@ -75,6 +77,7 @@ export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSna
   timelineSummaries,
   date,
 }) => {
+  const unrelatedToMappingParty = date > shiftDate(getFinishDate(), 1);
   const { locale } = useRouter();
   const dayOfWeek = React.useMemo(() => {
     const parsedDate = parse(date, "yyyy-MM-dd", new Date());
@@ -85,8 +88,18 @@ export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSna
   }, [date, locale]);
 
   return (
-    <Figure width={size} height={size}>
-      <GeoMapTitle>
+    <Figure
+      width={size}
+      height={unrelatedToMappingParty ? size - verticalSizeReduction : size}
+      unrelatedToMappingParty={unrelatedToMappingParty}
+    >
+      <GeoMapTitle
+        style={
+          unrelatedToMappingParty
+            ? { marginBottom: -verticalSizeReduction }
+            : {}
+        }
+      >
         <GeoMapTitleDayOfWeek>{dayOfWeek}</GeoMapTitleDayOfWeek>{" "}
         <GeoMapTitleDate>{date}</GeoMapTitleDate>
       </GeoMapTitle>
@@ -94,11 +107,12 @@ export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSna
         padding={12}
         buildingCollection={buildingCollection}
         territoryExtent={territoryExtent}
-        mappingCake={mappingCake}
+        mappingCake={unrelatedToMappingParty ? undefined : mappingCake}
       />
       <StyledLegend
         buildingCollectionDayBefore={buildingCollectionTheDayBefore}
         buildingCollection={buildingCollection}
+        unrelatedToMappingParty={unrelatedToMappingParty}
       />
       {timelineSummaries ? (
         <StyledMiniTimeline

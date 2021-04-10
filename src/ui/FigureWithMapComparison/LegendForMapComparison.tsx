@@ -19,7 +19,7 @@ import {
   SymbolWrapperEl,
 } from "../shared/legend";
 
-const DeltaPercent = styled(Delta)`
+export const DeltaPercent = styled(Delta)`
   width: 4em;
 
   :after {
