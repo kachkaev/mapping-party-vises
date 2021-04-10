@@ -1,6 +1,7 @@
 import * as React from "react";
 import styled from "styled-components";
 
+import { getFinishDate, getStartDate } from "../../shared/helpersForDates";
 import {
   FeatureCollectionWithBuildings,
   TerritoryExtent,
@@ -89,18 +90,14 @@ export const FigureWithMapComparison: React.VoidFunctionComponent<FigureWithMapC
     <Figure width={1000} height={550}>
       <GeoMaps>
         <GeoMapWrapper>
-          <GeoMapTitle>
-            {process.env.NEXT_PUBLIC_MAPPING_PARTY_DATE_START}
-          </GeoMapTitle>
+          <GeoMapTitle>{getStartDate()}</GeoMapTitle>
           <StyledGeoMap
             buildingCollection={sampleBuildings(buildingCollectionStart)}
             territoryExtent={territoryExtent}
           />
         </GeoMapWrapper>
         <GeoMapWrapper>
-          <GeoMapTitle>
-            {process.env.NEXT_PUBLIC_MAPPING_PARTY_DATE_FINISH}
-          </GeoMapTitle>
+          <GeoMapTitle>{getFinishDate()}</GeoMapTitle>
           <StyledGeoMap
             buildingCollection={sampleBuildings(buildingCollectionFinish)}
             territoryExtent={territoryExtent}

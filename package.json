@@ -33,6 +33,7 @@
   "dependencies": {
     "@turf/turf": "^6.3.0",
     "@visx/geo": "^1.7.0",
+    "@visx/grid": "^1.7.0",
     "date-fns": "^2.19.0",
     "execa": "^5.0.0",
     "fs-extra": "^9.1.0",
@@ -58,6 +59,9 @@
     "@types/lodash": "^4.14.168",
     "@types/styled-components": "^5.1.9",
     "@types/xmldom": "^0.1.30",
+    "@visx/curve": "^1.7.0",
+    "@visx/scale": "^1.7.0",
+    "@visx/shape": "^1.7.0",
     "dotenv-flow": "^3.2.0",
     "eslint": "^7.23.0",
     "globby": "^11.0.3",

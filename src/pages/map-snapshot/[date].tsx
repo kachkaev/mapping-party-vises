@@ -8,7 +8,11 @@ import {
   obtainFeatureWithTerritoryExtent,
   obtainTimelineSummaries,
 } from "../../shared/data";
-import { isOnMappingParty, shiftDate } from "../../shared/helpersForDates";
+import {
+  getFinishDate,
+  isOnMappingParty,
+  shiftDate,
+} from "../../shared/helpersForDates";
 import { FigureWithMapSnapshotProps } from "../../ui/FigureWithMapSnapshot";
 import { PageMetadata } from "../../ui/PageMetadata";
 
@@ -34,9 +38,12 @@ export const getServerSideProps: GetServerSideProps<
     date?: string;
   }
 > = async ({ params: { date = "unknown" } = {} }) => {
+  const tweakedDate =
+    shiftDate(date, -1) === getFinishDate() ? shiftDate(date, -1) : date;
+
   const props: MapSnapshotPageProps = {
     date,
-    buildingCollection: await obtainFeatureCollectionWithBuildings(date),
+    buildingCollection: await obtainFeatureCollectionWithBuildings(tweakedDate),
     mappingCake: await obtainFeatureCollectionWithMappingCake(),
     territoryExtent: await obtainFeatureWithTerritoryExtent(),
   };

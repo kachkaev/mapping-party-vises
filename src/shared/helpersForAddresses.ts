@@ -72,4 +72,11 @@ export const mapAddressStatusToColor = (
   }
 
   return "#a4a4a4";
+  // return "#7E92BC";
 };
+
+export const addressStatuses: AddressStatus[] = [
+  "addressPresent",
+  "addressMissing",
+  "addressNotRequired",
+];

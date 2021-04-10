@@ -97,7 +97,10 @@ export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSna
         buildingCollection={buildingCollection}
       />
       {timelineSummaries ? (
-        <StyledMiniTimeline timelineSummaries={timelineSummaries} />
+        <StyledMiniTimeline
+          timelineSummaries={timelineSummaries}
+          dateToHighlight={date}
+        />
       ) : null}
     </Figure>
   );

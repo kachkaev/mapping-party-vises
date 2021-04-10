@@ -7,13 +7,17 @@ import fs from "fs-extra";
 import path from "path";
 import puppeteer from "puppeteer";
 
-import { shiftDate } from "../shared/helpersForDates";
+import {
+  getFinishDate,
+  getStartDate,
+  shiftDate,
+} from "../shared/helpersForDates";
 import { generatePageUrl, getImageDirPath } from "../shared/images";
 
 export const makeImageWithMapComparison: Command = async ({ logger }) => {
   config();
   const animationVersion = `v${format(new Date(), "y-MM-dd-HHmm")}`;
-  const snapshotVersion = `v4`;
+  const snapshotVersion = `ru`;
   const imageDirPath = path.resolve(
     getImageDirPath(),
     `map-snapshots.${snapshotVersion}`,
@@ -22,21 +26,19 @@ export const makeImageWithMapComparison: Command = async ({ logger }) => {
 
   const browser = await puppeteer.launch();
 
-  const firstDate = shiftDate(
-    process.env.NEXT_PUBLIC_MAPPING_PARTY_DATE_START ?? "",
-    -1,
-  );
-  const lastDate = shiftDate(
-    process.env.NEXT_PUBLIC_MAPPING_PARTY_DATE_FINISH ?? "",
-    1,
-  );
+  const firstDate = shiftDate(getStartDate(), -1);
+  const lastDate = shiftDate(getFinishDate(), 1);
 
   const convertArgs: string[] = [];
 
   for (let date = firstDate; date <= lastDate; date = shiftDate(date, 1)) {
     const imagePath = path.resolve(imageDirPath, `${date}.png`);
 
-    convertArgs.push(imagePath, "-delay", date === firstDate ? "250" : "50");
+    if (date === firstDate) {
+      convertArgs.push(imagePath, "-delay", "200");
+    }
+
+    convertArgs.push(imagePath, "-delay", "50");
 
     if (date === lastDate) {
       convertArgs.push("-delay", "500", imagePath);
