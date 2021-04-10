@@ -149,7 +149,7 @@ const MappingCake = styled.span`
   top: 0;
 `;
 
-const MapCakeSymbol = styled.span`
+const MappingCakeSymbol = styled.span`
   display: inline-block;
   vertical-align: middle;
   width: 0.6em;
@@ -164,7 +164,7 @@ export const LegendRowForMappingCake: React.VoidFunctionComponent = () => {
   return (
     <LegendRowEl>
       <SymbolWrapperEl>
-        <MapCakeSymbol />
+        <MappingCakeSymbol />
       </SymbolWrapperEl>
       <StatusNameEl>
         <MappingCake>

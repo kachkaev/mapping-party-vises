@@ -126,7 +126,11 @@ export const FigureWithMapDiff: React.VoidFunctionComponent<FigureWithMapDiffPro
               формы здания или добавление адреса
             </>
           ) : (
-            "TODO"
+            <>
+              black fill represents changes in building
+              <br />
+              shapes or the addition of address tags
+            </>
           )}
         </LegendRowEl>
         <LegendRowGapEl />
