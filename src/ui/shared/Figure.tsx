@@ -87,7 +87,7 @@ export const Figure: React.VoidFunctionComponent<FigureProps> = ({
             <Title>
               {unrelatedToMappingParty
                 ? "OpenStreetMap building coverage in Penza, Russia"
-                : "Online OSM mapping party in Penza, Russia on building coverage"}
+                : "Online OSM mapping party on building coverage in Penza, Russia"}
             </Title>
             <Subtitle>
               <span style={{ opacity: 0.5 }}>

@@ -20,7 +20,7 @@ import { TimelineSummary } from "../../shared/types";
 const Wrapper = styled.div``;
 
 const Svg = styled.svg`
-  border: 1px solid #e5e5e5;
+  border: 1px solid #ccc;
   border-top: none;
 `;
 
@@ -28,6 +28,7 @@ const AxisLabels = styled.div`
   opacity: 0.5;
   margin-top: -2px;
   display: flex;
+  margin-right: -1.5px;
   justify-content: space-between;
 `;
 

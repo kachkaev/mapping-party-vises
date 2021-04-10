@@ -12,7 +12,12 @@ import {
   TimelineSummary,
 } from "../../shared/types";
 import { Figure } from "../shared/Figure";
-import { GeoMap } from "../shared/GeoMap";
+import {
+  GeoMap,
+  GeoMapLayerWithAddressStatuses,
+  GeoMapLayerWithMappingCake,
+  GeoMapLayerWithTerritoryExtent,
+} from "../shared/geoMaps";
 import { LegendForMapSnapshot } from "./LegendForMapSnapshot";
 import { MiniTimeline } from "./MiniTimeline";
 
@@ -83,8 +88,8 @@ export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSna
     const parsedDate = parse(date, "yyyy-MM-dd", new Date());
 
     return locale === "ru"
-      ? format(parsedDate, "eeeeee", { locale: ru })
-      : format(parsedDate, "eee", { locale: enGB });
+      ? format(parsedDate, "eeee" /* "eeeeee" */, { locale: ru })
+      : format(parsedDate, "eeee" /* "eee" */, { locale: enGB });
   }, [date, locale]);
 
   return (
@@ -103,12 +108,25 @@ export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSna
         <GeoMapTitleDayOfWeek>{dayOfWeek}</GeoMapTitleDayOfWeek>{" "}
         <GeoMapTitleDate>{date}</GeoMapTitleDate>
       </GeoMapTitle>
-      <StyledGeoMap
-        padding={12}
-        buildingCollection={buildingCollection}
-        territoryExtent={territoryExtent}
-        mappingCake={unrelatedToMappingParty ? undefined : mappingCake}
-      />
+      <StyledGeoMap padding={15} extentToFit={territoryExtent}>
+        {(layerProps) => (
+          <>
+            <GeoMapLayerWithTerritoryExtent
+              {...layerProps}
+              data={territoryExtent}
+            />
+            {unrelatedToMappingParty ? null : (
+              <GeoMapLayerWithMappingCake {...layerProps} data={mappingCake} />
+            )}
+            <GeoMapLayerWithAddressStatuses
+              {...layerProps}
+              data={buildingCollection}
+              // sample={5000}
+              bufferInMeters={5}
+            />
+          </>
+        )}
+      </StyledGeoMap>
       <StyledLegend
         buildingCollectionDayBefore={buildingCollectionTheDayBefore}
         buildingCollection={buildingCollection}

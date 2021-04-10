@@ -10,8 +10,12 @@ import {
   TerritoryExtent,
 } from "../../shared/types";
 import { Figure } from "../shared/Figure";
-import { GeoMap } from "../shared/GeoMap";
-import { GeoMapLayer } from "../shared/GeoMap/GeoMapLayer";
+import {
+  GeoMap,
+  GeoMapLayer,
+  GeoMapLayerWithMappingCake,
+  GeoMapLayerWithTerritoryExtent,
+} from "../shared/geoMaps";
 import {
   LegendRowEl,
   LegendRowForMappingCake,
@@ -57,7 +61,7 @@ export const FigureWithMapDiff: React.VoidFunctionComponent<FigureWithMapDiffPro
   const buildingFeatureProps = React.useCallback((feature: turf.Feature) => {
     return {
       fill: getAddressStatus(feature) === "addressPresent" ? "#000" : "#fff",
-      stroke: "#0006",
+      stroke: "#0001",
       strokeWidth: 0.05,
     };
   }, []);
@@ -66,7 +70,7 @@ export const FigureWithMapDiff: React.VoidFunctionComponent<FigureWithMapDiffPro
     (feature: turf.Feature) => {
       return {
         fill: getAddressStatus(feature) === "addressPresent" ? "#fff" : "#000",
-        stroke: "#0006",
+        stroke: "#0001",
         strokeWidth: 0.05,
       };
     },
@@ -75,42 +79,40 @@ export const FigureWithMapDiff: React.VoidFunctionComponent<FigureWithMapDiffPro
 
   return (
     <Figure width={size} height={size - verticalSizeReduction}>
-      <StyledGeoMap
-        padding={12}
-        territoryExtent={territoryExtent}
-        mappingCake={mappingCake}
-      >
-        {({ width, height, fitExtent }) => {
+      <StyledGeoMap padding={12} extentToFit={territoryExtent}>
+        {(layerProps) => {
           return (
-            <g>
-              <g style={{ mixBlendMode: "difference" }}>
-                <GeoMapLayer
-                  width={width}
-                  height={height}
-                  fitExtent={fitExtent}
-                  featureProps={buildingFeaturePropsInverse}
-                  features={sample(buildingCollectionFinish.features)}
-                />
+            <>
+              <g>
+                <rect x={0} y={0} width={10000} height={10000} fill="#fff" />
+                <g style={{ mixBlendMode: "difference" }}>
+                  <GeoMapLayer
+                    {...layerProps}
+                    featureProps={buildingFeaturePropsInverse}
+                    features={sample(buildingCollectionFinish.features)}
+                  />
+                </g>
+                <g style={{ mixBlendMode: "normal" }}>
+                  <GeoMapLayer
+                    {...layerProps}
+                    featureProps={buildingFeaturePropsInverse}
+                    features={sample(buildingCollectionStart.features)}
+                  />
+                </g>
+                <g style={{ mixBlendMode: "difference" }}>
+                  <GeoMapLayer
+                    {...layerProps}
+                    featureProps={buildingFeatureProps}
+                    features={sample(buildingCollectionFinish.features)}
+                  />
+                </g>
               </g>
-              <g style={{ mixBlendMode: "normal" }}>
-                <GeoMapLayer
-                  width={width}
-                  height={height}
-                  fitExtent={fitExtent}
-                  featureProps={buildingFeaturePropsInverse}
-                  features={sample(buildingCollectionStart.features)}
-                />
-              </g>
-              <g style={{ mixBlendMode: "difference" }}>
-                <GeoMapLayer
-                  width={width}
-                  height={height}
-                  fitExtent={fitExtent}
-                  featureProps={buildingFeatureProps}
-                  features={sample(buildingCollectionFinish.features)}
-                />
-              </g>
-            </g>
+              <GeoMapLayerWithTerritoryExtent
+                {...layerProps}
+                data={territoryExtent}
+              />
+              <GeoMapLayerWithMappingCake {...layerProps} data={mappingCake} />
+            </>
           );
         }}
       </StyledGeoMap>

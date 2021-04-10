@@ -3,7 +3,7 @@ import { Mercator } from "@visx/geo";
 import _ from "lodash";
 import * as React from "react";
 
-import { FitExtent } from "../../types";
+import { FitExtent } from "./types";
 
 export interface GeoMapLayerProps<
   Feature extends turf.Feature<turf.Polygon | turf.MultiPolygon> = turf.Feature<

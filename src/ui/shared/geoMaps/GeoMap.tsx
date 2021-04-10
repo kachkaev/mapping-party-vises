@@ -3,17 +3,7 @@ import * as React from "react";
 import { useMeasure } from "react-use";
 import styled from "styled-components";
 
-import {
-  getAddressStatus,
-  mapAddressStatusToColor,
-} from "../../../shared/helpersForAddresses";
-import {
-  FeatureCollectionWithBuildings,
-  FeatureCollectionWithMappingCake,
-  TerritoryExtent,
-} from "../../../shared/types";
-import { FitExtent } from "../../types";
-import { GeoMapLayer } from "./GeoMapLayer";
+import { FitExtent } from "./types";
 
 const Wrapper = styled.div`
   position: relative;
@@ -26,12 +16,9 @@ const StyledSvg = styled.svg`
 `;
 
 export interface GeoMapProps extends React.HTMLAttributes<HTMLDivElement> {
-  buildingCollection?: FeatureCollectionWithBuildings;
-  mappingCake?: FeatureCollectionWithMappingCake;
-  territoryExtent: TerritoryExtent;
-  scaleFactor?: number;
+  extentToFit: turf.Feature<turf.Polygon>;
   padding?: number;
-  children?: (payload: {
+  children: (payload: {
     width: number;
     height: number;
     fitExtent: FitExtent;
@@ -39,41 +26,23 @@ export interface GeoMapProps extends React.HTMLAttributes<HTMLDivElement> {
 }
 
 export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
-  buildingCollection,
-  mappingCake,
-  territoryExtent,
-  scaleFactor = 0.5,
+  extentToFit,
   padding = 0,
   children,
   ...rest
 }) => {
   const [ref, { width, height }] = useMeasure<HTMLDivElement>();
 
-  const territoryExtentStrokeWidth = 4 * scaleFactor;
-  const mapPaddingX = padding + territoryExtentStrokeWidth / 2;
-  const mapPaddingY = padding + territoryExtentStrokeWidth / 2;
+  const mapPaddingX = padding;
+  const mapPaddingY = padding;
 
   const fitExtent: FitExtent = [
     [
       [mapPaddingX, mapPaddingY],
       [width - mapPaddingX, height - mapPaddingY],
     ],
-    // territoryExtent,ge
-    turf.bboxPolygon(turf.bbox(territoryExtent)).geometry,
+    turf.bboxPolygon(turf.bbox(extentToFit)).geometry,
   ];
-
-  const buildingFeatureProps = React.useCallback(
-    (feature) => {
-      const fill = mapAddressStatusToColor(getAddressStatus(feature));
-
-      return {
-        fill,
-        stroke: fill,
-        strokeWidth: 0.5 * scaleFactor,
-      };
-    },
-    [scaleFactor],
-  );
 
   // TODO: figure out why visx / turf are incompatible orientation-wise
   fitExtent[1].coordinates[0].reverse();
@@ -82,21 +51,7 @@ export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
     <Wrapper {...rest} ref={ref}>
       {width && height ? (
         <StyledSvg width={width} height={height}>
-          <GeoMapLayer
-            width={width}
-            height={height}
-            fitExtent={fitExtent}
-            featureProps={() => ({
-              fill: "none",
-              stroke: "#000",
-              strokeWidth: territoryExtentStrokeWidth,
-              strokeLinejoin: "round",
-              strokeLinecap: "round",
-            })}
-            opacity={0.25}
-            features={[territoryExtent]}
-          />
-          {mappingCake ? (
+          {/* {mappingCake ? (
             <GeoMapLayer
               width={width}
               height={height}
@@ -120,7 +75,7 @@ export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
               featureProps={buildingFeatureProps}
               features={buildingCollection.features}
             />
-          ) : null}
+          ) : null} */}
           {children?.({ width, height, fitExtent })}
         </StyledSvg>
       ) : null}

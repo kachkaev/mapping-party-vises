@@ -14,7 +14,7 @@ export const generatePageUrl = (locale: string, pathname: string): string =>
 export const makeImage = async ({
   logger,
   pagePath,
-  deviceScaleFactor = 10,
+  deviceScaleFactor = 16,
 }: {
   logger: Console;
   pagePath: string;
@@ -26,7 +26,7 @@ export const makeImage = async ({
 
   await fs.ensureDir(imageDirPath);
 
-  const resultVersion = `v${format(new Date(), "y-MM-dd-HHmm")}`;
+  const resultVersion = `v${format(new Date(), "y-MM-dd-HHmmss")}`;
 
   const browser = await puppeteer.launch();
 

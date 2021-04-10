@@ -7,7 +7,11 @@ import {
   TerritoryExtent,
 } from "../../shared/types";
 import { Figure } from "../shared/Figure";
-import { GeoMap } from "../shared/GeoMap";
+import {
+  GeoMap,
+  GeoMapLayerWithAddressStatuses,
+  GeoMapLayerWithTerritoryExtent,
+} from "../shared/geoMaps";
 import { LegendForMapComparison } from "./LegendForMapComparison";
 
 const sampleBuildings = (
@@ -41,13 +45,6 @@ const GeoMapWrapper = styled.div`
   }
 `;
 
-const StyledGeoMap = styled(GeoMap)`
-  width: 455px;
-  height: ${455 / 1.2}px;
-  /* aspect-ratio: 1.2; */
-  /* ↑ not supported by ff */
-`;
-
 const GeoMapTitle = styled.div`
   font-size: 2em;
   /* outline: 1px solid red; */
@@ -75,6 +72,37 @@ const StyledDiffLegend = styled(LegendForMapComparison)`
   left: -50%;
 `;
 
+const StyledGeoMap = styled(GeoMap)`
+  width: 455px;
+  height: ${455 / 1.2}px;
+  /* aspect-ratio: 1.2; */
+  /* ↑ not supported by ff */
+`;
+
+const VizSpecificGeoMap: React.VoidFunctionComponent<{
+  buildingCollection: FeatureCollectionWithBuildings;
+  territoryExtent: TerritoryExtent;
+}> = ({ buildingCollection, territoryExtent }) => {
+  return (
+    <StyledGeoMap extentToFit={territoryExtent} padding={3}>
+      {(layerProps) => (
+        <>
+          <GeoMapLayerWithTerritoryExtent
+            {...layerProps}
+            data={territoryExtent}
+          />
+          <GeoMapLayerWithAddressStatuses
+            {...layerProps}
+            data={buildingCollection}
+            // sample={5000}
+            bufferInMeters={5}
+          />
+        </>
+      )}
+    </StyledGeoMap>
+  );
+};
+
 export interface FigureWithMapComparisonProps {
   buildingCollectionStart: FeatureCollectionWithBuildings;
   buildingCollectionFinish: FeatureCollectionWithBuildings;
@@ -91,14 +119,14 @@ export const FigureWithMapComparison: React.VoidFunctionComponent<FigureWithMapC
       <GeoMaps>
         <GeoMapWrapper>
           <GeoMapTitle>{getStartDate()}</GeoMapTitle>
-          <StyledGeoMap
+          <VizSpecificGeoMap
             buildingCollection={sampleBuildings(buildingCollectionStart)}
             territoryExtent={territoryExtent}
           />
         </GeoMapWrapper>
         <GeoMapWrapper>
           <GeoMapTitle>{getFinishDate()}</GeoMapTitle>
-          <StyledGeoMap
+          <VizSpecificGeoMap
             buildingCollection={sampleBuildings(buildingCollectionFinish)}
             territoryExtent={territoryExtent}
           />
