@@ -34,7 +34,7 @@
     "@turf/turf": "^6.3.0",
     "@visx/geo": "^1.7.0",
     "@visx/grid": "^1.7.0",
-    "date-fns": "^2.19.0",
+    "date-fns": "^2.20.1",
     "execa": "^5.0.0",
     "fs-extra": "^9.1.0",
     "lodash": "^4.17.21",
@@ -43,7 +43,7 @@
     "react": "^17.0.2",
     "react-compare-slider": "^2.0.2",
     "react-dom": "^17.0.2",
-    "react-use": "^17.2.1",
+    "react-use": "^17.2.3",
     "styled-components": "^5.2.3",
     "styled-normalize": "^8.0.7",
     "xmldom": "^0.5.0"
@@ -63,7 +63,7 @@
     "@visx/scale": "^1.7.0",
     "@visx/shape": "^1.7.0",
     "dotenv-flow": "^3.2.0",
-    "eslint": "^7.23.0",
+    "eslint": "^7.24.0",
     "globby": "^11.0.3",
     "husky": "^6.0.0",
     "lint-staged": "^10.5.4",
@@ -72,7 +72,7 @@
     "prettier": "^2.2.1",
     "puppeteer": "^8.0.0",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.3",
+    "typescript": "^4.2.4",
     "yarn-deduplicate": "^3.1.0"
   },
   "run-if-changed": {
