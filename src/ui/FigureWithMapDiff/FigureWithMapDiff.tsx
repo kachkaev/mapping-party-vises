@@ -4,6 +4,7 @@ import * as React from "react";
 import styled from "styled-components";
 
 import { getAddressStatus } from "../../shared/helpersForAddresses";
+import { getFinishDate, getStartDate } from "../../shared/helpersForDates";
 import {
   FeatureCollectionWithBuildings,
   FeatureCollectionWithMappingCake,
@@ -124,12 +125,15 @@ export const FigureWithMapDiff: React.VoidFunctionComponent<FigureWithMapDiffPro
               чёрная заливка обозначает изменение
               <br />
               формы здания или добавление адреса
+              <br />в период между {getStartDate()} и {getFinishDate()}
             </>
           ) : (
             <>
               black fill represents changes in building
               <br />
               shapes or the addition of address tags
+              <br />
+              between {getStartDate()} and {getFinishDate()}
             </>
           )}
         </LegendRowEl>
