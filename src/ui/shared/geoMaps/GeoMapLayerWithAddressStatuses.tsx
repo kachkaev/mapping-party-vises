@@ -42,13 +42,19 @@ export const GeoMapLayerWithAddressStatuses: React.VoidFunctionComponent<GeoMapL
 
   const features = React.useMemo(
     () =>
-      data.features.map(
-        // (feature) => feature,
-        (feature) =>
-          bufferInMeters > 0
-            ? turf.buffer(feature, 2, { units: "meters", steps: 1 })
-            : feature,
-      ),
+      data.features.map((feature) => {
+        if (!bufferInMeters) {
+          return feature;
+        }
+
+        try {
+          return turf.buffer(feature, 2, { units: "meters", steps: 1 });
+        } catch {
+          // noop (unclosed geometry)
+        }
+
+        return feature;
+      }),
     [data, bufferInMeters],
   );
 

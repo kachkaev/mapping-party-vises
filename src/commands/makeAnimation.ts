@@ -12,7 +12,11 @@ import {
   getStartDate,
   shiftDate,
 } from "../shared/helpersForDates";
-import { generatePageUrl, getImageDirPath, getLocale } from "../shared/images";
+import {
+  ensurePngScreenshot,
+  getImageDirPath,
+  getLocale,
+} from "../shared/images";
 
 export const makeAnimation: Command = async ({ logger }) => {
   config();
@@ -46,32 +50,20 @@ export const makeAnimation: Command = async ({ logger }) => {
       convertArgs.push("-delay", "500", imagePath);
     }
 
-    if (await fs.pathExists(imagePath)) {
-      logger.log(chalk.gray(imagePath));
-      continue;
-    }
-
-    const page = await browser.newPage();
-    await page.goto(generatePageUrl(locale, `map-snapshot/${date}`));
-    await page.setViewport({
-      width: 100,
-      height: 100,
+    await ensurePngScreenshot({
+      browser,
       deviceScaleFactor: 4,
+      imagePath,
+      locale,
+      logger,
+      pagePath: `map-snapshot/${date}`,
     });
-
-    await page.screenshot({
-      path: imagePath,
-      fullPage: true,
-    });
-    await page.close();
-
-    logger.log(chalk.magenta(imagePath));
   }
 
   await browser.close();
 
   const animationFilePath = path.resolve(
-    framesDirPath,
+    getImageDirPath(),
     `animation.${resultVersion}.${locale}.gif`,
   );
   convertArgs.push("-loop", "0", "-layers", "Optimize", animationFilePath);

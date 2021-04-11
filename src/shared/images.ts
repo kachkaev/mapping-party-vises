@@ -2,7 +2,7 @@ import chalk from "chalk";
 import { format } from "date-fns";
 import fs from "fs-extra";
 import path from "path";
-import puppeteer from "puppeteer";
+import puppeteer, { Browser } from "puppeteer";
 
 export const getLocale = (): string => process.env.LOCALE ?? "en";
 
@@ -10,6 +10,47 @@ export const getImageDirPath = (): string => path.resolve("images");
 
 export const generatePageUrl = (locale: string, pathname: string): string =>
   `http://localhost:3000/${locale}/${pathname}`;
+
+export const openBrowser = async (): Promise<Browser> => {
+  return await puppeteer.launch();
+};
+
+export const ensurePngScreenshot = async ({
+  browser,
+  deviceScaleFactor,
+  imagePath,
+  locale,
+  pagePath,
+  logger,
+}: {
+  browser: Browser;
+  deviceScaleFactor: number;
+  imagePath: string;
+  locale: string;
+  pagePath: string;
+  logger: Console;
+}): Promise<void> => {
+  if (await fs.pathExists(imagePath)) {
+    logger.log(chalk.gray(imagePath));
+
+    return;
+  }
+  const page = await browser.newPage();
+  await page.goto(generatePageUrl(locale, pagePath));
+  await page.setViewport({
+    width: 100,
+    height: 100,
+    deviceScaleFactor,
+  });
+
+  await page.screenshot({
+    path: imagePath,
+    fullPage: true,
+  });
+  await page.close();
+
+  logger.log(chalk.magenta(imagePath));
+};
 
 export const makeImage = async ({
   logger,
@@ -28,28 +69,23 @@ export const makeImage = async ({
 
   const resultVersion = `v${format(new Date(), "y-MM-dd-HHmmss")}`;
 
-  const browser = await puppeteer.launch();
+  const browser = await openBrowser();
 
   const imagePath = path.resolve(
     imageDirPath,
     `${pagePath.replace(/(\/|\\)/g, "~")}.${resultVersion}.${locale}.png`,
   );
 
-  const page = await browser.newPage();
-  await page.goto(generatePageUrl(locale, pagePath));
-  await page.setViewport({
-    width: 100,
-    height: 100,
+  await ensurePngScreenshot({
+    browser,
     deviceScaleFactor,
+    imagePath,
+    locale,
+    pagePath,
+    logger,
   });
-
-  await page.screenshot({
-    path: imagePath,
-    fullPage: true,
-  });
-  await page.close();
 
   await browser.close();
 
-  logger.log(`Done! ${chalk.magenta(imagePath)}`);
+  logger.log(`Done!`);
 };

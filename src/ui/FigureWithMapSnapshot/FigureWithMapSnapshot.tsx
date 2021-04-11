@@ -4,7 +4,11 @@ import { useRouter } from "next/dist/client/router";
 import * as React from "react";
 import styled from "styled-components";
 
-import { getFinishDate, shiftDate } from "../../shared/helpersForDates";
+import {
+  getFinishDate,
+  isOnMappingParty,
+  shiftDate,
+} from "../../shared/helpersForDates";
 import {
   FeatureCollectionWithBuildings,
   FeatureCollectionWithMappingCake,
@@ -87,9 +91,16 @@ export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSna
   const dayOfWeek = React.useMemo(() => {
     const parsedDate = parse(date, "yyyy-MM-dd", new Date());
 
-    return locale === "ru"
-      ? format(parsedDate, "eeee" /* "eeeeee" */, { locale: ru })
-      : format(parsedDate, "eeee" /* "eee" */, { locale: enGB });
+    // Short format helps reduce cognitive distraction while gif is playing
+    const dayOfWeekFormat = !isOnMappingParty(date)
+      ? "eeee" // Friday / пятница
+      : locale === "ru"
+      ? "eeeeee" // пт
+      : "eee"; // Fri
+
+    return format(parsedDate, dayOfWeekFormat, {
+      locale: locale === "ru" ? ru : enGB,
+    });
   }, [date, locale]);
 
   return (

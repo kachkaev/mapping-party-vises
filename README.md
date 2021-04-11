@@ -21,6 +21,6 @@ LOCALE=ru DATE=2021-04-01 yarn exe src/commands/makeImageOfMapSnapshot.ts
 LOCALE=en yarn exe src/commands/makeImageOfMapSnapshot.ts
 LOCALE=ru yarn exe src/commands/makeImageOfMapSnapshot.ts
 
-FRAME_VERSION=v1 LOCALE=en yarn exe src/commands/makeAnimation.ts
-FRAME_VERSION=v1 LOCALE=ru yarn exe src/commands/makeAnimation.ts
+FRAME_VERSION=v2 LOCALE=en yarn exe src/commands/makeAnimation.ts
+FRAME_VERSION=v2 LOCALE=ru yarn exe src/commands/makeAnimation.ts
 ```
