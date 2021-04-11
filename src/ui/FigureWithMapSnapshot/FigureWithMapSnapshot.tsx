@@ -26,7 +26,6 @@ import { LegendForMapSnapshot } from "./LegendForMapSnapshot";
 import { MiniTimeline } from "./MiniTimeline";
 
 const size = 750;
-const verticalSizeReduction = 16 + 6;
 
 const GeoMapTitle = styled.div`
   font-size: 3.3em;
@@ -106,16 +105,10 @@ export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSna
   return (
     <Figure
       width={size}
-      height={unrelatedToMappingParty ? size - verticalSizeReduction : size}
+      height={size}
       unrelatedToMappingParty={unrelatedToMappingParty}
     >
-      <GeoMapTitle
-        style={
-          unrelatedToMappingParty
-            ? { marginBottom: -verticalSizeReduction }
-            : {}
-        }
-      >
+      <GeoMapTitle>
         <GeoMapTitleDayOfWeek>{dayOfWeek}</GeoMapTitleDayOfWeek>{" "}
         <GeoMapTitleDate>{date}</GeoMapTitleDate>
       </GeoMapTitle>

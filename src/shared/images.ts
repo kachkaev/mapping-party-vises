@@ -15,20 +15,22 @@ export const openBrowser = async (): Promise<Browser> => {
   return await puppeteer.launch();
 };
 
-export const ensurePngScreenshot = async ({
+export const ensureRasterScreenshot = async ({
   browser,
   deviceScaleFactor,
   imagePath,
   locale,
-  pagePath,
   logger,
+  pagePath,
+  quality,
 }: {
   browser: Browser;
   deviceScaleFactor: number;
   imagePath: string;
   locale: string;
-  pagePath: string;
   logger: Console;
+  pagePath: string;
+  quality?: number;
 }): Promise<void> => {
   if (await fs.pathExists(imagePath)) {
     logger.log(chalk.gray(imagePath));
@@ -45,6 +47,7 @@ export const ensurePngScreenshot = async ({
 
   await page.screenshot({
     path: imagePath,
+    quality,
     fullPage: true,
   });
   await page.close();
@@ -73,16 +76,17 @@ export const makeImage = async ({
 
   const imagePath = path.resolve(
     imageDirPath,
-    `${pagePath.replace(/(\/|\\)/g, "~")}.${resultVersion}.${locale}.png`,
+    `${pagePath.replace(/(\/|\\)/g, "~")}.${resultVersion}.${locale}.jpg`,
   );
 
-  await ensurePngScreenshot({
+  await ensureRasterScreenshot({
     browser,
     deviceScaleFactor,
     imagePath,
     locale,
     pagePath,
     logger,
+    quality: 85,
   });
 
   await browser.close();

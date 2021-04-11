@@ -18,6 +18,7 @@ import {
   LegendRowGapEl,
   orderedAddressStatuses,
   StatusNameEl,
+  SymbolWrapperEl,
 } from "../shared/legend";
 
 const StyledStatusName = styled(StatusNameEl)`
@@ -94,11 +95,13 @@ export const LegendForMapSnapshot: React.VoidFunctionComponent<LegendForMapSnaps
           addressStatus={addressStatus}
         />
       ))}
-      {unrelatedToMappingParty ? null : (
-        <>
-          <LegendRowGapEl />
-          <LegendRowForMappingCake />
-        </>
+      <LegendRowGapEl />
+      {unrelatedToMappingParty ? (
+        <LegendRowEl>
+          <SymbolWrapperEl>&nbsp;</SymbolWrapperEl>
+        </LegendRowEl>
+      ) : (
+        <LegendRowForMappingCake />
       )}
     </Wrapper>
   );

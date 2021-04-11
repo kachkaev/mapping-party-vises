@@ -13,7 +13,7 @@ import {
   shiftDate,
 } from "../shared/helpersForDates";
 import {
-  ensurePngScreenshot,
+  ensureRasterScreenshot,
   getImageDirPath,
   getLocale,
 } from "../shared/images";
@@ -50,9 +50,9 @@ export const makeAnimation: Command = async ({ logger }) => {
       convertArgs.push("-delay", "500", imagePath);
     }
 
-    await ensurePngScreenshot({
+    await ensureRasterScreenshot({
       browser,
-      deviceScaleFactor: 4,
+      deviceScaleFactor: 1,
       imagePath,
       locale,
       logger,
