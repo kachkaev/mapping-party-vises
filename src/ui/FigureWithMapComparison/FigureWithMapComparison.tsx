@@ -79,7 +79,7 @@ const StyledGeoMap = styled(GeoMap)`
   /* ↑ not supported by ff */
 `;
 
-const VizSpecificGeoMap: React.VoidFunctionComponent<{
+const VisSpecificGeoMap: React.VoidFunctionComponent<{
   buildingCollection: FeatureCollectionWithBuildings;
   territoryExtent: TerritoryExtent;
 }> = ({ buildingCollection, territoryExtent }) => {
@@ -119,14 +119,14 @@ export const FigureWithMapComparison: React.VoidFunctionComponent<FigureWithMapC
       <GeoMaps>
         <GeoMapWrapper>
           <GeoMapTitle>{getStartDate()}</GeoMapTitle>
-          <VizSpecificGeoMap
+          <VisSpecificGeoMap
             buildingCollection={sampleBuildings(buildingCollectionStart)}
             territoryExtent={territoryExtent}
           />
         </GeoMapWrapper>
         <GeoMapWrapper>
           <GeoMapTitle>{getFinishDate()}</GeoMapTitle>
-          <VizSpecificGeoMap
+          <VisSpecificGeoMap
             buildingCollection={sampleBuildings(buildingCollectionFinish)}
             territoryExtent={territoryExtent}
           />

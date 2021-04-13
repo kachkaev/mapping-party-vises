@@ -5,8 +5,8 @@ export const PageMetadata: React.VoidFunctionComponent<{
   title?: string;
   description?: string;
 }> = ({
-  title = "mapping party vizes",
-  description = "Misc viz sketches for OpenStreetMap mapping parties",
+  title = "mapping party vises",
+  description = "Misc vis sketches for OpenStreetMap mapping parties",
 }) => {
   return (
     <Head>

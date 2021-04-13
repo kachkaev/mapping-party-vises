@@ -105,7 +105,7 @@ export const Figure: React.VoidFunctionComponent<FigureProps> = ({
               <StyledExternalLink href="https://www.openstreetmap.org/copyright">
                 ODbL
               </StyledExternalLink>
-              {gap} viz: Alexander Kachkaev,{" "}
+              {gap} vis: Alexander Kachkaev,{" "}
               <StyledExternalLink href="https://en.kachkaev.ru" />
             </span>
           </Subtitle>
