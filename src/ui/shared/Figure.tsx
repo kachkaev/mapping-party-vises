@@ -40,6 +40,7 @@ export interface FigureProps {
   height: number;
   width: number;
   unrelatedToMappingParty?: boolean;
+  header: React.ReactNode;
 }
 
 export const Figure: React.VoidFunctionComponent<FigureProps> = ({
@@ -47,69 +48,75 @@ export const Figure: React.VoidFunctionComponent<FigureProps> = ({
   width,
   height,
   unrelatedToMappingParty,
+  header,
 }) => {
   const gap = "   ";
 
   const { locale } = useRouter();
 
+  let resolvedHeader: React.ReactNode | undefined = header;
+  if (header === undefined) {
+    resolvedHeader =
+      locale === "ru" ? (
+        <>
+          <Title>
+            {unrelatedToMappingParty
+              ? "Здания OpenStreetMap в Пензе, Заречном и Засечном"
+              : "Онлайн-картовечеринка OSM в Пензе, Заречном и Засечном"}
+          </Title>
+          <Subtitle>
+            <span style={{ opacity: 0.5 }}>
+              <StyledExternalLink
+                href={
+                  unrelatedToMappingParty
+                    ? "https://wiki.osm.org/wiki/RU:Пенза"
+                    : "https://wiki.osm.org/wiki/RU:Пенза/встречи"
+                }
+              />
+              {gap}
+              данные: © участники <StyledExternalLink href="https://osm.org" />,{" "}
+              <StyledExternalLink href="https://www.openstreetmap.org/copyright">
+                ODbL
+              </StyledExternalLink>
+              {gap} визуализация: Александр Качкаев,{" "}
+              <StyledExternalLink href="https://kachkaev.ru" />
+            </span>
+          </Subtitle>
+        </>
+      ) : (
+        <>
+          <Title>
+            {unrelatedToMappingParty
+              ? "OpenStreetMap building coverage in Penza, Russia"
+              : "Online OSM mapping party on building coverage in Penza, Russia"}
+          </Title>
+          <Subtitle>
+            <span style={{ opacity: 0.5 }}>
+              <StyledExternalLink
+                href={
+                  unrelatedToMappingParty
+                    ? "https://wiki.osm.org/wiki/Penza"
+                    : "https://osmcal.org/event/583"
+                }
+              />
+              {gap}
+              data: © <StyledExternalLink href="https://osm.org" />{" "}
+              contributors,{" "}
+              <StyledExternalLink href="https://www.openstreetmap.org/copyright">
+                ODbL
+              </StyledExternalLink>
+              {gap} viz: Alexander Kachkaev,{" "}
+              <StyledExternalLink href="https://en.kachkaev.ru" />
+            </span>
+          </Subtitle>
+        </>
+      );
+  }
+
   return (
     <Wrapper style={{ width, height }}>
       <Content>
-        {locale === "ru" ? (
-          <>
-            <Title>
-              {unrelatedToMappingParty
-                ? "Здания OpenStreetMap в Пензе, Заречном и Засечном"
-                : "Онлайн-картовечеринка OSM в Пензе, Заречном и Засечном"}
-            </Title>
-            <Subtitle>
-              <span style={{ opacity: 0.5 }}>
-                <StyledExternalLink
-                  href={
-                    unrelatedToMappingParty
-                      ? "https://wiki.osm.org/wiki/RU:Пенза"
-                      : "https://wiki.osm.org/wiki/RU:Пенза/встречи"
-                  }
-                />
-                {gap}
-                данные: © участники{" "}
-                <StyledExternalLink href="https://osm.org" />,{" "}
-                <StyledExternalLink href="https://www.openstreetmap.org/copyright">
-                  ODbL
-                </StyledExternalLink>
-                {gap} визуализация: Александр Качкаев,{" "}
-                <StyledExternalLink href="https://kachkaev.ru" />
-              </span>
-            </Subtitle>
-          </>
-        ) : (
-          <>
-            <Title>
-              {unrelatedToMappingParty
-                ? "OpenStreetMap building coverage in Penza, Russia"
-                : "Online OSM mapping party on building coverage in Penza, Russia"}
-            </Title>
-            <Subtitle>
-              <span style={{ opacity: 0.5 }}>
-                <StyledExternalLink
-                  href={
-                    unrelatedToMappingParty
-                      ? "https://wiki.osm.org/wiki/Penza"
-                      : "https://osmcal.org/event/583"
-                  }
-                />
-                {gap}
-                data: © <StyledExternalLink href="https://osm.org" />{" "}
-                contributors,{" "}
-                <StyledExternalLink href="https://www.openstreetmap.org/copyright">
-                  ODbL
-                </StyledExternalLink>
-                {gap} viz: Alexander Kachkaev,{" "}
-                <StyledExternalLink href="https://en.kachkaev.ru" />
-              </span>
-            </Subtitle>
-          </>
-        )}
+        {resolvedHeader}
         {children}
       </Content>
     </Wrapper>

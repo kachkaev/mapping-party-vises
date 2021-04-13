@@ -17,7 +17,7 @@ LOCALE=ru yarn exe src/commands/makeImageOfMapDiff.ts
 
 LOCALE=en yarn exe src/commands/makeImageOfTimeline.ts
 LOCALE=ru yarn exe src/commands/makeImageOfTimeline.ts
-LOCALE=en yarn exe src/commands/makeImageOfTimelineBreakthrough.ts
+LOCALE=en yarn exe src/commands/makeImageOfTimelineExtension.ts
 
 LOCALE=en DATE=2021-02-19 yarn exe src/commands/makeImageOfMapSnapshot.ts
 LOCALE=ru DATE=2021-02-19 yarn exe src/commands/makeImageOfMapSnapshot.ts

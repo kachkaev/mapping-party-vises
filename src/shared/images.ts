@@ -56,13 +56,15 @@ export const ensureRasterScreenshot = async ({
 };
 
 export const makeImage = async ({
+  deviceScaleFactor = 16,
+  extension = "jpg",
   logger,
   pagePath,
-  deviceScaleFactor = 16,
 }: {
+  deviceScaleFactor?: number;
+  extension?: string;
   logger: Console;
   pagePath: string;
-  deviceScaleFactor?: number;
 }) => {
   const locale = getLocale();
 
@@ -76,7 +78,10 @@ export const makeImage = async ({
 
   const imagePath = path.resolve(
     imageDirPath,
-    `${pagePath.replace(/(\/|\\)/g, "~")}.${resultVersion}.${locale}.jpg`,
+    `${pagePath.replace(
+      /(\/|\\)/g,
+      "~",
+    )}.${resultVersion}.${locale}.${extension}`,
   );
 
   await ensureRasterScreenshot({
@@ -86,7 +91,7 @@ export const makeImage = async ({
     locale,
     pagePath,
     logger,
-    quality: 85,
+    quality: extension === "jpg" ? 85 : undefined,
   });
 
   await browser.close();
