@@ -40,7 +40,7 @@ export interface FigureProps {
   height: number;
   width: number;
   unrelatedToMappingParty?: boolean;
-  header: React.ReactNode;
+  header?: React.ReactNode;
 }
 
 export const Figure: React.VoidFunctionComponent<FigureProps> = ({
