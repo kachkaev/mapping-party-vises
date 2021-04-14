@@ -12,11 +12,8 @@ import {
   getStartDate,
   shiftDate,
 } from "../shared/helpersForDates";
-import {
-  ensureRasterScreenshot,
-  getImageDirPath,
-  getLocale,
-} from "../shared/images";
+import { getImageDirPath } from "../shared/helpersForPaths";
+import { ensureRasterScreenshot, getLocale } from "../shared/images";
 
 export const makeAnimation: Command = async ({ logger }) => {
   config();

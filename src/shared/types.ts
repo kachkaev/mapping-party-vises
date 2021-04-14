@@ -2,7 +2,11 @@ import * as turf from "@turf/turf";
 
 export type FeatureCollectionWithBuildings = turf.FeatureCollection<
   turf.Polygon | turf.MultiPolygon
->;
+> & {
+  properties: {
+    fetchedAt: string;
+  };
+};
 
 export type FeatureCollectionWithMappingCake = turf.FeatureCollection<turf.Polygon>;
 
@@ -14,6 +18,6 @@ export type AddressStatus =
   | "addressNotRequired";
 
 export interface TimelineSummary {
-  knownAt: string;
+  fetchedAt: string;
   buildingCountByAddressStatus: Record<AddressStatus, number>;
 }

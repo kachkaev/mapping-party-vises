@@ -1,6 +1,7 @@
 import * as turf from "@turf/turf";
+import _ from "lodash";
 
-import { AddressStatus } from "./types";
+import { AddressStatus, FeatureCollectionWithBuildings } from "./types";
 
 const hasAddress = ({ properties }: turf.Feature): boolean => {
   return Boolean(
@@ -81,3 +82,15 @@ export const addressStatuses: AddressStatus[] = [
   "addressMissing",
   "addressNotRequired",
 ];
+
+export type AddressSummary = Record<AddressStatus, number>;
+
+export const generateAddressSummary = (
+  featureCollection: FeatureCollectionWithBuildings,
+): AddressSummary => {
+  const result = _.countBy(featureCollection.features, (feature) =>
+    getAddressStatus(feature),
+  ) as AddressSummary;
+
+  return result;
+};

@@ -5,12 +5,12 @@ import styled from "styled-components";
 import { FeatureCollectionWithBuildings } from "../../shared/types";
 import {
   AddressStatusOrAll,
-  AddressSummary,
+  AddressSummaryWithAll,
   AddressSymbol,
   Count,
   CountEl,
   Delta,
-  generateAddressSummary,
+  generateAddressSummaryWithAll,
   getAddressStatusName,
   LegendRowEl,
   LegendRowGapEl,
@@ -28,8 +28,8 @@ export const DeltaPercent = styled(Delta)`
 `;
 
 const Row: React.VoidFunctionComponent<{
-  startSummary: AddressSummary;
-  finishSummary: AddressSummary;
+  startSummary: AddressSummaryWithAll;
+  finishSummary: AddressSummaryWithAll;
   addressStatus: AddressStatusOrAll;
 }> = ({ startSummary, finishSummary, addressStatus }) => {
   const { locale } = useRouter();
@@ -67,11 +67,11 @@ export const LegendForMapComparison: React.VoidFunctionComponent<LegendForMapCom
 }) => {
   const { locale } = useRouter();
   const startSummary = React.useMemo(
-    () => generateAddressSummary(buildingCollectionStart),
+    () => generateAddressSummaryWithAll(buildingCollectionStart),
     [buildingCollectionStart],
   );
   const finishSummary = React.useMemo(
-    () => generateAddressSummary(buildingCollectionFinish),
+    () => generateAddressSummaryWithAll(buildingCollectionFinish),
     [buildingCollectionFinish],
   );
 

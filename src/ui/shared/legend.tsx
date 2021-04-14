@@ -4,7 +4,7 @@ import * as React from "react";
 import styled from "styled-components";
 
 import {
-  getAddressStatus,
+  generateAddressSummary,
   mapAddressStatusToColor,
 } from "../../shared/helpersForAddresses";
 import {
@@ -14,25 +14,22 @@ import {
 import { ExternalLink } from "./ExternalLink";
 
 export type AddressStatusOrAll = AddressStatus | "all";
+export type AddressSummaryWithAll = Record<AddressStatusOrAll, number>;
 
-export type AddressSummary = Record<AddressStatusOrAll, number>;
+export const generateAddressSummaryWithAll = (
+  featureCollection: FeatureCollectionWithBuildings,
+): AddressSummaryWithAll => {
+  const addressSummary = generateAddressSummary(featureCollection);
 
+  return {
+    ...addressSummary,
+    all: _.sum(_.values(addressSummary)),
+  };
+};
 const fRu = Intl.NumberFormat("ru");
 const fEn = Intl.NumberFormat("en");
 const formatNumber = (n: number, locale: string | undefined) => {
   return (locale === "ru" ? fRu : fEn).format(n).replace(/\u00A0/g, "\u202F");
-};
-
-export const generateAddressSummary = (
-  featureCollection: FeatureCollectionWithBuildings,
-): AddressSummary => {
-  const result = _.countBy(featureCollection.features, (feature) =>
-    getAddressStatus(feature),
-  ) as AddressSummary;
-
-  result["all"] = _.sum(_.values(result));
-
-  return result;
 };
 
 export const orderedAddressStatuses: AddressStatusOrAll[] = [

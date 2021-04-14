@@ -6,12 +6,12 @@ import styled from "styled-components";
 import { FeatureCollectionWithBuildings } from "../../shared/types";
 import {
   AddressStatusOrAll,
-  AddressSummary,
+  AddressSummaryWithAll,
   AddressSymbol,
   Count,
   Delta,
   DeltaEl,
-  generateAddressSummary,
+  generateAddressSummaryWithAll,
   getAddressStatusName,
   LegendRowEl,
   LegendRowForMappingCake,
@@ -27,8 +27,8 @@ const StyledStatusName = styled(StatusNameEl)`
 `;
 
 const LegendRow: React.VoidFunctionComponent<{
-  summaryDayBefore?: AddressSummary;
-  summary: AddressSummary;
+  summaryDayBefore?: AddressSummaryWithAll;
+  summary: AddressSummaryWithAll;
   addressStatus: AddressStatusOrAll;
 }> = ({ summaryDayBefore, summary, addressStatus }) => {
   const { locale } = useRouter();
@@ -76,12 +76,12 @@ export const LegendForMapSnapshot: React.VoidFunctionComponent<LegendForMapSnaps
   const summaryDayBefore = React.useMemo(
     () =>
       buildingCollectionDayBefore
-        ? generateAddressSummary(buildingCollectionDayBefore)
+        ? generateAddressSummaryWithAll(buildingCollectionDayBefore)
         : undefined,
     [buildingCollectionDayBefore],
   );
   const summary = React.useMemo(
-    () => generateAddressSummary(buildingCollection),
+    () => generateAddressSummaryWithAll(buildingCollection),
     [buildingCollection],
   );
 

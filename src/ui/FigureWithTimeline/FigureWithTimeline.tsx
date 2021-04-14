@@ -211,7 +211,7 @@ export const FigureWithTimeline: React.VoidFunctionComponent<FigureWithTimelineP
               key={addressStatus}
               curve={curveLinear}
               data={timelineSummaries}
-              x={(d) => xScale(parseISO(d.knownAt))}
+              x={(d) => xScale(parseISO(d.fetchedAt))}
               y={(d) => yScale(d.buildingCountByAddressStatus[addressStatus])}
               stroke={mapAddressStatusToColor(addressStatus)}
               strokeWidth={2}

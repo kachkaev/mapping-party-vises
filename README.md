@@ -9,6 +9,8 @@ Misc vis sketches for [OpenStreetMap mapping parties](https://wiki.openstreetmap
 ## Commands for image generation
 
 ```sh
+yarn exe src/commands/generateTimelineSummaries.ts
+
 LOCALE=en yarn exe src/commands/makeImageOfMapComparison.ts
 LOCALE=ru yarn exe src/commands/makeImageOfMapComparison.ts
 

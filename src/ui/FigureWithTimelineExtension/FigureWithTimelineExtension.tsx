@@ -59,8 +59,9 @@ export const FigureWithTimelineExtension: React.VoidFunctionComponent<FigureWith
 }) => {
   // I refetched the data too often on 10 April, so the chart got a bit zigzagy. Skipping two data points helps healing this.
   const filteredTimelineSummaries = timelineSummaries.filter(
-    ({ knownAt }) =>
-      knownAt !== "2021-04-10T13:45:19Z" && knownAt !== "2021-04-10T18:32:35Z",
+    ({ fetchedAt }) =>
+      fetchedAt !== "2021-04-10T13:45:19Z" &&
+      fetchedAt !== "2021-04-10T18:32:35Z",
   );
 
   const timeStart = parseDateTime(getStartDate());
@@ -158,7 +159,7 @@ export const FigureWithTimelineExtension: React.VoidFunctionComponent<FigureWith
               key={addressStatus}
               curve={curveLinear}
               data={filteredTimelineSummaries}
-              x={(d) => xScale(parseISO(d.knownAt))}
+              x={(d) => xScale(parseISO(d.fetchedAt))}
               y={(d) => yScale(d.buildingCountByAddressStatus[addressStatus])}
               stroke={mapAddressStatusToColor(addressStatus)}
               strokeWidth={2}

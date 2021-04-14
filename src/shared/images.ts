@@ -4,9 +4,9 @@ import fs from "fs-extra";
 import path from "path";
 import puppeteer, { Browser } from "puppeteer";
 
-export const getLocale = (): string => process.env.LOCALE ?? "en";
+import { getImageDirPath } from "./helpersForPaths";
 
-export const getImageDirPath = (): string => path.resolve("images");
+export const getLocale = (): string => process.env.LOCALE ?? "en";
 
 export const generatePageUrl = (locale: string, pathname: string): string =>
   `http://localhost:3000/${locale}/${pathname}`;

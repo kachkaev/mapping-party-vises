@@ -8,6 +8,7 @@ node_modules
 
 # next.js
 /.next/
+/.vercel/
 /out/
 
 # production
@@ -16,12 +17,9 @@ node_modules
 # misc
 .DS_Store
 .env*
+/var
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-
-# custom
-.vercel
-/images

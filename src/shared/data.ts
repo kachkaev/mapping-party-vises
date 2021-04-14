@@ -6,6 +6,7 @@ import osmToGeoJson from "osmtogeojson";
 import { DOMParser } from "xmldom";
 
 import { shiftDate } from "./helpersForDates";
+import { getTimelineSummariesDirPath } from "./helpersForPaths";
 import {
   FeatureCollectionWithBuildings,
   FeatureCollectionWithMappingCake,
@@ -63,31 +64,18 @@ export const obtainFeatureWithTerritoryExtent = async (): Promise<TerritoryExten
   return result;
 };
 
-interface RawTimelineSummary {
-  knownAt: string;
-  numberOfBuildingsWithAddresses: number;
-  numberOfBuildingsWithoutOptionalAddresses: number;
-  numberOfBuildingsWithoutRequiredAddresses: number;
-}
 export const obtainTimelineSummaries = async (): Promise<TimelineSummary[]> => {
   const filePaths = await globby("**/summary.json", {
-    cwd: process.env.TIMELINE_SUMMARIES_DIR_PATH,
+    cwd: getTimelineSummariesDirPath(),
     absolute: true,
     onlyFiles: true,
   });
 
   const records: TimelineSummary[] = [];
   for (const filePath of filePaths) {
-    const json = (await fs.readJson(filePath)) as RawTimelineSummary;
-    records.push({
-      knownAt: json.knownAt,
-      buildingCountByAddressStatus: {
-        addressMissing: json.numberOfBuildingsWithoutRequiredAddresses,
-        addressNotRequired: json.numberOfBuildingsWithoutOptionalAddresses,
-        addressPresent: json.numberOfBuildingsWithAddresses,
-      },
-    });
+    const json = (await fs.readJson(filePath)) as TimelineSummary;
+    records.push(json);
   }
 
-  return _.sortBy(records, (record) => record.knownAt);
+  return _.sortBy(records, (record) => record.fetchedAt);
 };

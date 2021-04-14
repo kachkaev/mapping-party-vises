@@ -132,7 +132,7 @@ export const MiniTimeline: React.VoidFunctionComponent<MiniTimelineProps> = ({
                 key={addressStatus}
                 curve={curveLinear}
                 data={timelineSummaries}
-                x={(d) => xScale(parseISO(d.knownAt))}
+                x={(d) => xScale(parseISO(d.fetchedAt))}
                 y={(d) => yScale(d.buildingCountByAddressStatus[addressStatus])}
                 stroke={mapAddressStatusToColor(addressStatus)}
                 strokeLinejoin="round"
