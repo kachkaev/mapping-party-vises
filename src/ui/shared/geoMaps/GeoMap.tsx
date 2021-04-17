@@ -51,31 +51,6 @@ export const GeoMap: React.VoidFunctionComponent<GeoMapProps> = ({
     <Wrapper {...rest} ref={ref}>
       {width && height ? (
         <StyledSvg width={width} height={height}>
-          {/* {mappingCake ? (
-            <GeoMapLayer
-              width={width}
-              height={height}
-              fitExtent={fitExtent}
-              featureProps={() => ({
-                fill: "none",
-                stroke: "#4d75c4",
-                strokeWidth: 2 * scaleFactor,
-                strokeLinejoin: "round",
-                strokeLinecap: "round",
-              })}
-              opacity={0.2}
-              features={mappingCake.features}
-            />
-          ) : null}
-          {buildingCollection ? (
-            <GeoMapLayer
-              width={width}
-              height={height}
-              fitExtent={fitExtent}
-              featureProps={buildingFeatureProps}
-              features={buildingCollection.features}
-            />
-          ) : null} */}
           {children?.({ width, height, fitExtent })}
         </StyledSvg>
       ) : null}

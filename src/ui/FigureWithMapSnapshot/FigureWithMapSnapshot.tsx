@@ -22,6 +22,7 @@ import {
   GeoMapLayerWithMappingCake,
   GeoMapLayerWithTerritoryExtent,
 } from "../shared/geoMaps";
+import { GeoMapLayerWithChanges } from "./GeoMapLayerWithChanges";
 import { LegendForMapSnapshot } from "./LegendForMapSnapshot";
 import { MiniTimeline } from "./MiniTimeline";
 
@@ -121,6 +122,14 @@ export const FigureWithMapSnapshot: React.VoidFunctionComponent<FigureWithMapSna
             />
             {unrelatedToMappingParty ? null : (
               <GeoMapLayerWithMappingCake {...layerProps} data={mappingCake} />
+            )}
+            {unrelatedToMappingParty ||
+            !buildingCollectionTheDayBefore ? null : (
+              <GeoMapLayerWithChanges
+                {...layerProps}
+                data={buildingCollection}
+                prevData={buildingCollectionTheDayBefore}
+              />
             )}
             <GeoMapLayerWithAddressStatuses
               {...layerProps}

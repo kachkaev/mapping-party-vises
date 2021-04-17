@@ -69,6 +69,7 @@ export const MiniTimeline: React.VoidFunctionComponent<MiniTimelineProps> = ({
       maskHeight: height,
       opacity: 1,
       strokeWidth: 1.5,
+      color: "",
     },
   ];
 
@@ -82,6 +83,7 @@ export const MiniTimeline: React.VoidFunctionComponent<MiniTimelineProps> = ({
         maskHeight: height,
         opacity: 0.2,
         strokeWidth: 1,
+        color: "",
       },
       {
         maskId: "tail",
@@ -91,6 +93,7 @@ export const MiniTimeline: React.VoidFunctionComponent<MiniTimelineProps> = ({
         maskHeight: height,
         opacity: 1,
         strokeWidth: 1.5,
+        color: "",
       },
       {
         maskId: "currentDate",
@@ -102,6 +105,7 @@ export const MiniTimeline: React.VoidFunctionComponent<MiniTimelineProps> = ({
         maskHeight: height,
         opacity: 1,
         strokeWidth: 1.5,
+        color: "#000",
       },
     ];
   }
@@ -134,7 +138,7 @@ export const MiniTimeline: React.VoidFunctionComponent<MiniTimelineProps> = ({
                 data={timelineSummaries}
                 x={(d) => xScale(parseISO(d.fetchedAt))}
                 y={(d) => yScale(d.buildingCountByAddressStatus[addressStatus])}
-                stroke={mapAddressStatusToColor(addressStatus)}
+                stroke={mode.color || mapAddressStatusToColor(addressStatus)}
                 strokeLinejoin="round"
                 strokeWidth={mode.strokeWidth}
                 strokeOpacity={1}
