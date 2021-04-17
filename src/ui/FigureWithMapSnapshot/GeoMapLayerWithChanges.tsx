@@ -27,9 +27,9 @@ export const GeoMapLayerWithChanges: React.VoidFunctionComponent<GeoMapLayerWith
     (feature: turf.Feature) => React.SVGProps<SVGPathElement>
   >(() => {
     return {
-      fill: "#000",
-      stroke: "#000",
-      strokeWidth: 1,
+      fill: "#4d75c4",
+      stroke: "#4d75c4",
+      strokeWidth: 3,
     };
   }, []);
 
@@ -80,6 +80,7 @@ export const GeoMapLayerWithChanges: React.VoidFunctionComponent<GeoMapLayerWith
       height={height}
       fitExtent={fitExtent}
       featureProps={featureProps}
+      opacity={0.6}
       features={sampledFeatures}
     />
   );
